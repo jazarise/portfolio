@@ -10,6 +10,7 @@ import { GlobalStateProvider } from '@/lib/GlobalState';
 export async function generateMetadata(): Promise<Metadata> {
   const homeCfg = await getContentSection('home');
   return {
+<<<<<<< HEAD
     title: `${homeCfg.heading || 'Jaishanth'} · Cybersecurity Student & Aspiring Red Teamer`,
     description: homeCfg.bio || 'Cybersecurity student focused on penetration testing, red teaming, and offensive security. Hands-on experience with TryHackMe, HackTheBox, and real-world security labs.',
     keywords: ['cybersecurity', 'ethical hacking', 'red team', 'penetration testing', 'portfolio', 'security researcher', 'TryHackMe', 'HackTheBox', 'VAPT', 'offensive security'],
@@ -20,6 +21,11 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'jaiz_sec',
     },
     robots: 'index, follow',
+=======
+    title: `${homeCfg.heading || 'Jaishanth'} · ${homeCfg.subheading || 'Cybersecurity & Dev'}`,
+    description: homeCfg.bio || 'Cybersecurity enthusiast, ethical hacker, and full-stack developer.',
+    keywords: ['cybersecurity', 'developer', 'portfolio', 'ethical hacker', 'penetration testing'],
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   };
 }
 

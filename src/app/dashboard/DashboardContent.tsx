@@ -13,11 +13,17 @@ import {
 } from '@/app/actions';
 import MediaUploader from '@/components/MediaUploader';
 import Navbar from '@/components/Navbar';
+<<<<<<< HEAD
 import UsersTab from './UsersTab';
 import EmptyState from '@/components/EmptyState';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 type TabId = 'overview' | 'projects' | 'certs' | 'blog' | 'social' | 'messages' | 'content' | 'users' | 'settings';
+=======
+
+// ─── Types ──────────────────────────────────────────────────────────────────
+type TabId = 'overview' | 'projects' | 'certs' | 'blog' | 'social' | 'messages' | 'content' | 'settings';
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 interface Tab { id: TabId; label: string; icon: string; badge?: number }
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
@@ -210,7 +216,11 @@ function ContentTab({ showToast }: { showToast: (m: string, t?: 'success' | 'err
             <div className="mt-8 border border-white/10 rounded-2xl overflow-hidden bg-black/50 p-4 border-dashed">
               <label className={labelCls}>Live Preview of Navbar</label>
               <div className="relative h-16 pointer-events-none transform origin-top-left flex items-center justify-center -mt-2">
+<<<<<<< HEAD
                 <Navbar previewCfg={{
+=======
+                <Navbar cfg={{
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
                     brandPrefix: data.brandPrefix,
                     brandName: data.brandName,
                     brandImage: data.brandImage,
@@ -349,7 +359,11 @@ function MessagesTab({ showToast }: { showToast: (m: string, t?: 'success' | 'er
 
 // ─── LoginPage ────────────────────────────────────────────────────────────────
 function LoginPage() {
+<<<<<<< HEAD
   const [form, setForm] = useState({ email: '', password: '' });
+=======
+  const [form, setForm] = useState({ username: '', password: '' });
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPass, setShowPass] = useState(false);
@@ -357,7 +371,11 @@ function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true); setError('');
+<<<<<<< HEAD
     const res = await signIn('credentials', { redirect: false, email: form.email, password: form.password });
+=======
+    const res = await signIn('credentials', { redirect: false, username: form.username, password: form.password });
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
     setLoading(false);
     if (res?.error) {
       setError('Invalid credentials. Access denied.');
@@ -368,21 +386,33 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative"
+<<<<<<< HEAD
       style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.07) 0%, transparent 70%)' }}>
       <div className="fixed inset-0 -z-10 pointer-events-none"
         style={{ backgroundImage: 'linear-gradient(rgba(168,85,247,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,0.025) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+=======
+      style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(157,0,255,0.07) 0%, transparent 70%)' }}>
+      <div className="fixed inset-0 -z-10 pointer-events-none"
+        style={{ backgroundImage: 'linear-gradient(rgba(157,0,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(157,0,255,0.025) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-md">
         <div className="text-center mb-10">
           <div className="relative inline-flex items-center justify-center w-20 h-20 mb-6">
+<<<<<<< HEAD
             <div className="absolute inset-0 rounded-2xl bg-neon-purple/15 blur-xl animate-pulse" />
             <div className="relative w-20 h-20 rounded-2xl bg-[#0c0c16] border border-neon-purple/30 flex items-center justify-center text-3xl shadow-[0_0_20px_rgba(168,85,247,0.2)]">🔐</div>
+=======
+            <div className="absolute inset-0 rounded-2xl bg-neon-purple/20 blur-xl animate-pulse" />
+            <div className="relative w-20 h-20 rounded-2xl bg-[#0c0c16] border border-neon-purple/30 flex items-center justify-center text-3xl shadow-[0_0_30px_rgba(157,0,255,0.3)]">🔐</div>
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
           </div>
           <h1 className="text-3xl font-bold text-white font-display mb-2">Secure Access</h1>
           <p className="text-[10px] font-mono text-gray-500 tracking-[0.2em]">ADMIN CONTROL PANEL · RESTRICTED</p>
         </div>
 
         <div className="relative rounded-2xl overflow-hidden"
+<<<<<<< HEAD
           style={{ background: 'rgba(8,8,15,0.92)', border: '1px solid rgba(168,85,247,0.2)', boxShadow: '0 0 40px rgba(168,85,247,0.06), 0 24px 64px rgba(0,0,0,0.7)' }}>
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-purple to-transparent" />
           <form onSubmit={handleLogin} className="p-8 space-y-5">
@@ -393,6 +423,18 @@ function LoginPage() {
                 <input type="email" required value={form.email}
                   onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                   placeholder="admin@jaiz.sec" className={`${inputCls} pl-8`} autoComplete="email" />
+=======
+          style={{ background: 'rgba(8,8,15,0.92)', border: '1px solid rgba(157,0,255,0.2)', boxShadow: '0 0 60px rgba(157,0,255,0.08), 0 24px 64px rgba(0,0,0,0.7)' }}>
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-purple to-transparent" />
+          <form onSubmit={handleLogin} className="p-8 space-y-5">
+            <div>
+              <label className={labelCls}>Username</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 font-mono text-sm">@</span>
+                <input type="text" required value={form.username}
+                  onChange={e => setForm(f => ({ ...f, username: e.target.value }))}
+                  placeholder="JAISHANTH" className={`${inputCls} pl-8`} autoComplete="username" />
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
               </div>
             </div>
             <div>
@@ -418,7 +460,11 @@ function LoginPage() {
             <button type="submit" disabled={loading}
               className="w-full py-3.5 rounded-xl font-mono font-medium text-sm text-white transition-all
               bg-gradient-to-r from-neon-purple/20 to-indigo-900/30 border border-neon-purple/40
+<<<<<<< HEAD
               hover:border-neon-purple/80 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]
+=======
+              hover:border-neon-purple/80 hover:shadow-[0_0_30px_rgba(157,0,255,0.25)]
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
               disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]">
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -524,8 +570,18 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
     if (status === 'authenticated') loadData();
   }, [status, loadData]);
 
+<<<<<<< HEAD
   // Image uploads are now handled by MediaUploader → Cloudinary → URL string
   // No more base64 DataURL encoding (which breaks on Vercel and bloats MongoDB)
+=======
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => setFormData((prev: any) => ({ ...prev, [field]: reader.result as string }));
+    reader.readAsDataURL(file);
+  };
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -535,7 +591,10 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
         const d = {
           title: formData.title, description: formData.description,
           tags: formData.tags?.split(',').map((t: string) => t.trim()).filter(Boolean) || [],
+<<<<<<< HEAD
           metrics: formData.metrics?.split(',').map((t: string) => t.trim()).filter(Boolean) || [],
+=======
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
           githubUrl: formData.githubUrl, liveUrl: formData.liveUrl,
           category: formData.category, imageUrl: formData.image, videoUrl: formData.videoUrl,
         };
@@ -585,7 +644,10 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
       title: rec.title || rec.platform || '',
       description: rec.description || '',
       tags: Array.isArray(rec.tags) ? rec.tags.join(', ') : '',
+<<<<<<< HEAD
       metrics: Array.isArray(rec.metrics) ? rec.metrics.join(', ') : '',
+=======
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       githubUrl: rec.githubUrl || '',
       liveUrl: rec.liveUrl || '',
       category: rec.category || '',
@@ -611,12 +673,20 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
     try {
       const res = await fetch('/api/admin/change-credentials', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
+<<<<<<< HEAD
         body: JSON.stringify({ password: credForm.newPassword }),
+=======
+        body: JSON.stringify({ username: credForm.username || session?.user?.name, password: credForm.newPassword }),
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setCredForm({ username: '', newPassword: '', confirmPassword: '' });
+<<<<<<< HEAD
       showToast('✓ Password updated! Signing out...');
+=======
+      showToast('✓ Credentials updated! Signing out...');
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       setTimeout(() => signOut(), 2500);
     } catch (err: any) { showToast(err.message, 'error'); }
     finally { setCredLoading(false); }
@@ -646,7 +716,10 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
     { id: 'social',    label: 'Social Media', icon: '◉', badge: socials.length || undefined },
     { id: 'messages',  label: 'Messages',     icon: '✉', badge: unreadCount || undefined },
     { id: 'content',   label: 'Site Content', icon: '✎' },
+<<<<<<< HEAD
     ...((session?.user as any)?.role === 'ADMIN' ? [{ id: 'users' as TabId, label: 'Users', icon: '👥' }] : []),
+=======
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
     { id: 'settings',  label: 'Credentials',  icon: '⚙' },
   ];
 
@@ -836,10 +909,13 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
                                     <input type="url" value={formData.liveUrl || ''} onChange={e => setFormData((f: any) => ({ ...f, liveUrl: e.target.value }))} className={inputCls} placeholder="https://..." />
                                   </div>
                                 </div>
+<<<<<<< HEAD
                                 <div>
                                   <label className={labelCls}>Metrics (comma separated, e.g. &quot;Scanned 100+ hosts, Detects open ports&quot;)</label>
                                   <input type="text" value={formData.metrics || ''} onChange={e => setFormData((f: any) => ({ ...f, metrics: e.target.value }))} className={inputCls} placeholder="Scanned 100+ hosts, Detects CVEs..." />
                                 </div>
+=======
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
                               </>)}
 
                               {/* CERTS */}
@@ -969,7 +1045,14 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
                     )}
                   </div>
                 ) : (
+<<<<<<< HEAD
                   <EmptyState type={activeTab} />
+=======
+                  <div className="text-center py-16 text-gray-700">
+                    <div className="text-5xl mb-4 opacity-20">◈</div>
+                    <p className="font-mono text-sm">No records yet. Create your first entry above.</p>
+                  </div>
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
                 )}
               </div>
             )}
@@ -980,9 +1063,12 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
             {/* ── SITE CONTENT ───────────────────────────────────── */}
             {activeTab === 'content' && <ContentTab showToast={showToast} />}
 
+<<<<<<< HEAD
             {/* ── USERS ──────────────────────────────────────────── */}
             {activeTab === 'users' && <UsersTab showToast={showToast} currentUserId={(session?.user as any)?.userId} />}
 
+=======
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
             {/* ── CREDENTIALS ────────────────────────────────────── */}
             {activeTab === 'settings' && (
               <div className="max-w-lg">

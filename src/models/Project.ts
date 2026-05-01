@@ -6,7 +6,10 @@ const ProjectSchema = new mongoose.Schema({
   longDescription: { type: String },
   category: { type: String },
   tags: [String],
+<<<<<<< HEAD
   metrics: [String], // e.g. "Scanned 100+ hosts", "Detects open ports using Nmap"
+=======
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   githubUrl: { type: String },
   liveUrl: { type: String },
   iconSvg: { type: String },

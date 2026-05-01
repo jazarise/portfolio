@@ -3,6 +3,7 @@
 import Reveal from '@/components/Reveal';
 import GlassCard from '@/components/GlassCard';
 import { smartPlaceholder } from '@/lib/utils';
+<<<<<<< HEAD
 import { Terminal, Shield, Network, Code, Search, Bug, Globe, Server, Cpu, Lock } from 'lucide-react';
 
 const SKILLS_TOOLS = [
@@ -27,6 +28,8 @@ const PROGRESS_ITEMS = [
   { label: 'Network Scans Performed',   value: '200+',  color: '#ef4444' },
 ];
 
+=======
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 export default function AboutContent({ cfg, homeCfg }: { cfg: any, homeCfg: any }) {
   const parsedFocuses = (cfg.focuses || '').split(';').map((f: string) => {
     const [label, level] = f.split(',');
@@ -38,8 +41,12 @@ export default function AboutContent({ cfg, homeCfg }: { cfg: any, homeCfg: any 
 
   return (
     <div className="pt-24 min-h-screen">
+<<<<<<< HEAD
       <section className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
+=======
+      <section className="max-w-7xl mx-auto px-6 py-12 text-center md:text-left">
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
         <Reveal>
           <div className="inline-block px-4 py-1 rounded-full border border-neon-purple/30 bg-neon-purple/10 text-neon-purple font-mono text-xs mb-6">
             // 01. IDENTITY
@@ -49,6 +56,7 @@ export default function AboutContent({ cfg, homeCfg }: { cfg: any, homeCfg: any 
           </h1>
         </Reveal>
 
+<<<<<<< HEAD
         {/* Bio — broken into subsections */}
         <div className="grid md:grid-cols-2 gap-12 items-start mb-20">
           <Reveal delay={0.1}>
@@ -72,6 +80,14 @@ export default function AboutContent({ cfg, homeCfg }: { cfg: any, homeCfg: any 
                 <p className="text-gray-400 leading-relaxed">{smartPlaceholder(cfg.p3)}</p>
               </div>
 
+=======
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <Reveal delay={0.1}>
+            <div className="text-gray-400 space-y-6 text-lg leading-relaxed text-left">
+              <p>{smartPlaceholder(cfg.p1)}</p>
+              <p>{smartPlaceholder(cfg.p2)}</p>
+              <p>{smartPlaceholder(cfg.p3)}</p>
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
               <div className="flex flex-wrap gap-3 pt-2">
                 {[loc, mail].filter(Boolean).map(item => (
                   <span key={item} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 font-mono text-xs text-gray-300">
@@ -83,9 +99,15 @@ export default function AboutContent({ cfg, homeCfg }: { cfg: any, homeCfg: any 
           </Reveal>
 
           <Reveal delay={0.2} className="relative">
+<<<<<<< HEAD
             <div className="absolute inset-0 bg-neon-purple/10 blur-[100px] -z-10 rounded-full mix-blend-screen" />
             <GlassCard className="p-8 border border-neon-purple/30 shadow-[0_0_30px_rgba(168,85,247,0.1)] relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-neon-cyan/15 blur-3xl -z-10 group-hover:bg-neon-cyan/20 transition-colors" />
+=======
+            <div className="absolute inset-0 bg-neon-purple/20 blur-[100px] -z-10 rounded-full mix-blend-screen" />
+            <GlassCard className="p-8 border border-neon-purple/40 shadow-[0_0_40px_rgba(157,0,255,0.15)] relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-neon-cyan/20 blur-3xl -z-10 group-hover:bg-neon-cyan/30 transition-colors" />
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
               <h3 className="font-display font-bold text-2xl text-white mb-6 flex items-center gap-3">
                 <span className="text-neon-pink">⚡</span> Core Focus
               </h3>
@@ -100,6 +122,7 @@ export default function AboutContent({ cfg, homeCfg }: { cfg: any, homeCfg: any 
             </GlassCard>
           </Reveal>
         </div>
+<<<<<<< HEAD
 
         {/* Skills & Tools Grid */}
         <Reveal>
@@ -144,6 +167,8 @@ export default function AboutContent({ cfg, homeCfg }: { cfg: any, homeCfg: any 
             </Reveal>
           ))}
         </div>
+=======
+>>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       </section>
     </div>
   );
