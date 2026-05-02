@@ -7,7 +7,7 @@ interface MediaUploaderProps {
   label: string;
   value: string;
   onChange: (url: string) => void;
-  type?: 'image' | 'video' | 'any';
+  type?: 'image' | 'video' | 'document' | 'any';
 }
 
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
@@ -15,7 +15,7 @@ const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/ogg'];
 const ALLOWED_DOC_TYPES = ['application/pdf'];
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-export default function MediaUploader({ label, value, onChange, type = 'any' }: MediaUploaderProps & { type?: 'image' | 'video' | 'document' | 'any' }) {
+export default function MediaUploader({ label, value, onChange, type = 'any' }: MediaUploaderProps) {
   const [uploading, setUploading] = useState(false);
   const [drag, setDrag] = useState(false);
   const [error, setError] = useState('');
