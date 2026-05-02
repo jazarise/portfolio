@@ -15,14 +15,17 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
+        const envUser = process.env.ADMIN_USERNAME;
+        const envPass = process.env.ADMIN_PASSWORD;
+
+        // 1. Check environment variables first (guaranteed admin access even if DB is empty)
+        if (envUser && envPass && credentials.email === envUser && credentials.password === envPass) {
+          return { id: 'env-admin', name: envUser, email: `${envUser}@admin.local`, role: 'ADMIN', permissions: {} };
+        }
+
+        // 2. Check Database
         const db = await dbConnect();
         if (!db) {
-          // Fallback for when DB is offline — use env vars
-          const envUser = process.env.ADMIN_USERNAME;
-          const envPass = process.env.ADMIN_PASSWORD;
-          if (credentials.email === envUser && credentials.password === envPass) {
-            return { id: 'env-admin', name: envUser, email: `${envUser}@admin.local`, role: 'ADMIN', permissions: {} };
-          }
           return null;
         }
 
