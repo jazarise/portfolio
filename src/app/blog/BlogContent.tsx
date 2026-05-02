@@ -2,6 +2,7 @@
 
 import Reveal from '@/components/Reveal';
 import GlassCard from '@/components/GlassCard';
+import Image from 'next/image';
 
 // ─── Normalize DB post to display shape ──────────────────────────────────────
 function normalize(p: any) {
@@ -38,7 +39,13 @@ function BlogMedia({ src, videoUrl }: { src?: string; videoUrl?: string }) {
     return <video src={videoUrl} autoPlay loop muted playsInline className="w-full aspect-video object-cover rounded-xl mb-6 shadow-lg border border-white/5" />;
   }
   
-  if (src) return <img src={src} alt="Blog Cover" className="w-full aspect-video object-cover rounded-xl mb-6 shadow-lg border border-white/5" />;
+  if (src) {
+    return (
+      <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-6 shadow-lg border border-white/5">
+        <Image src={src} fill sizes="(max-width: 768px) 100vw, 800px" alt="Blog Cover" className="object-cover" />
+      </div>
+    );
+  }
   return null;
 }
 

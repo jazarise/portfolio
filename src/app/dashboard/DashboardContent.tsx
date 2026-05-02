@@ -13,17 +13,11 @@ import {
 } from '@/app/actions';
 import MediaUploader from '@/components/MediaUploader';
 import Navbar from '@/components/Navbar';
-<<<<<<< HEAD
 import UsersTab from './UsersTab';
 import EmptyState from '@/components/EmptyState';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 type TabId = 'overview' | 'projects' | 'certs' | 'blog' | 'social' | 'messages' | 'content' | 'users' | 'settings';
-=======
-
-// ─── Types ──────────────────────────────────────────────────────────────────
-type TabId = 'overview' | 'projects' | 'certs' | 'blog' | 'social' | 'messages' | 'content' | 'settings';
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 interface Tab { id: TabId; label: string; icon: string; badge?: number }
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
@@ -174,7 +168,7 @@ function ContentTab({ showToast }: { showToast: (m: string, t?: 'success' | 'err
       </div>
       
       <div className="flex gap-2 mb-6 overflow-x-auto pb-2 border-b border-[rgba(157,0,255,0.1)] scrollbar-hide">
-        {['navbar', 'home', 'about', 'projects', 'certs', 'blog', 'contact', 'footer'].map(s => (
+        {['navbar', 'home', 'about', 'projects', 'certs', 'blog', 'contact', 'footer', 'profile'].map(s => (
           <button key={s} onClick={() => setSection(s)} className={`px-4 py-2 font-mono text-xs rounded-xl transition-all ${section === s ? 'bg-purple-950/40 text-purple-300 border border-purple-500/40' : 'text-gray-500 hover:text-gray-300'}`}>
             {s.toUpperCase()}
           </button>
@@ -187,10 +181,14 @@ function ContentTab({ showToast }: { showToast: (m: string, t?: 'success' | 'err
             <div className="grid grid-cols-2 gap-4"><Inp data={data} aF={aF} label="Heading 1" k="heading" /><Inp data={data} aF={aF} label="Subheading" k="subheading" /></div>
             <Inp data={data} aF={aF} label="Tagline" k="tagline" />
             <Inp data={data} aF={aF} label="Hero Bio" k="bio" isArea />
-            <div className="grid border-b border-dark-border pb-4 gap-4">
-              <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={!!data.availableForWork} onChange={e => setData((c: any) => ({ ...c, availableForWork: e.target.checked }))} className="w-4 h-4 accent-purple-500" /><span className="text-sm text-gray-300 font-mono">Available for Work</span></label>
+            <div className="grid border-b border-dark-border pb-4 gap-4 mt-4 mb-4">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" checked={!!data.availableForWork} onChange={e => setData((c: any) => ({ ...c, availableForWork: e.target.checked }))} className="w-4 h-4 accent-purple-500" />
+                <span className="text-sm text-gray-300 font-mono">Available for Work</span>
+              </label>
             </div>
-            <div className="grid grid-cols-2 gap-4"><Inp data={data} aF={aF} label="Projects Count" k="statProjects" /><Inp data={data} aF={aF} label="Certs Count" k="statCerts" /></div>
+            <MediaInp data={data} setData={setData} label="Resume / CV File (PDF)" k="resumeUrl" type="document" />
+            <div className="grid grid-cols-2 gap-4 mt-2"><Inp data={data} aF={aF} label="Projects Count" k="statProjects" /><Inp data={data} aF={aF} label="Certs Count" k="statCerts" /></div>
             <Inp data={data} aF={aF} label="Platforms (Format: Name,Rank,Color,URL; Name2,Rank2,Color2,URL)" k="platforms" isArea h="h-24" />
             <Inp data={data} aF={aF} label="Skills (Format: Name,Pct; Name2,Pct2)" k="skills" isArea h="h-24" />
           </>)}
@@ -210,22 +208,144 @@ function ContentTab({ showToast }: { showToast: (m: string, t?: 'success' | 'err
           {section === 'navbar' && (<>
             <Inp data={data} aF={aF} label="Brand Prefix (e.g., jaiz)" k="brandPrefix" />
             <Inp data={data} aF={aF} label="Brand Name/Identifier (e.g., jaiz_sec)" k="brandName" />
-            <MediaInp data={data} setData={setData} label="Profile Image" k="brandImage" type="image" />
+            
+            <div className="grid border border-white/10 rounded-xl p-4 bg-white/5 gap-4 my-2">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={data.showProfileImage !== false} 
+                  onChange={e => setData((c: any) => ({ ...c, showProfileImage: e.target.checked }))} 
+                  className="w-4 h-4 accent-purple-500" 
+                />
+                <span className="text-sm text-gray-300 font-mono">Show Profile Picture</span>
+              </label>
+              
+              {data.showProfileImage !== false && (
+                <MediaInp data={data} setData={setData} label="Profile Image" k="brandImage" type="image" />
+              )}
+            </div>
+
             <Inp data={data} aF={aF} label="CTA Button Text" k="ctaText" />
 
             <div className="mt-8 border border-white/10 rounded-2xl overflow-hidden bg-black/50 p-4 border-dashed">
               <label className={labelCls}>Live Preview of Navbar</label>
               <div className="relative h-16 pointer-events-none transform origin-top-left flex items-center justify-center -mt-2">
-<<<<<<< HEAD
                 <Navbar previewCfg={{
-=======
-                <Navbar cfg={{
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
                     brandPrefix: data.brandPrefix,
                     brandName: data.brandName,
                     brandImage: data.brandImage,
+                    showProfileImage: data.showProfileImage,
                     ctaText: data.ctaText
                 }} />
+              </div>
+            </div>
+          </>)}
+
+          {section === 'profile' && (<>
+            <div className="grid grid-cols-2 gap-4">
+              <MediaInp data={data} setData={setData} label="Profile Picture (Center Node)" k="profileImage" type="image" />
+              <Inp data={data} aF={aF} label="Spin Time for 1 Rotation (Seconds, e.g. 5)" k="rotationSpeed" />
+            </div>
+            <div className="mt-8 border-t border-white/10 pt-6">
+              <div className="flex items-center justify-between mb-4">
+                <label className={labelCls}>Timeline Nodes</label>
+                <button type="button" onClick={() => {
+                  const nodes = data.timelineNodes || [];
+                  setData({ ...data, timelineNodes: [...nodes, { id: Date.now(), title: 'New Node', date: '', content: '', academy: '', link: '', category: 'Role', iconName: 'Circle', status: 'pending', energy: 50 }] });
+                }} className="px-3 py-1.5 text-xs font-mono text-purple-400 border border-purple-500/30 rounded-lg hover:bg-purple-500/10 transition-all">+ Add Node</button>
+              </div>
+              
+              <div className="space-y-4">
+                {(data.timelineNodes || []).map((node: any, idx: number) => (
+                  <div key={node.id} className="p-4 border border-[rgba(255,255,255,0.05)] rounded-xl bg-[#08080f] relative group">
+                    <button type="button" onClick={() => {
+                      const nodes = [...data.timelineNodes];
+                      nodes.splice(idx, 1);
+                      setData({ ...data, timelineNodes: nodes });
+                    }} className="absolute top-4 right-4 text-xs font-mono text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition-opacity">Remove</button>
+                    
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label className="block text-[9px] font-mono text-gray-500 tracking-widest mb-1 uppercase">Title</label>
+                        <input type="text" value={node.title} onChange={e => {
+                          const nodes = [...data.timelineNodes];
+                          nodes[idx].title = e.target.value;
+                          setData({ ...data, timelineNodes: nodes });
+                        }} className={inputCls} />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-mono text-gray-500 tracking-widest mb-1 uppercase">Date</label>
+                        <input type="text" value={node.date} onChange={e => {
+                          const nodes = [...data.timelineNodes];
+                          nodes[idx].date = e.target.value;
+                          setData({ ...data, timelineNodes: nodes });
+                        }} className={inputCls} />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label className="block text-[9px] font-mono text-gray-500 tracking-widest mb-1 uppercase">Academy / Platform</label>
+                        <input type="text" value={node.academy || ''} onChange={e => {
+                          const nodes = [...data.timelineNodes];
+                          nodes[idx].academy = e.target.value;
+                          setData({ ...data, timelineNodes: nodes });
+                        }} className={inputCls} />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-mono text-gray-500 tracking-widest mb-1 uppercase">Verify Link</label>
+                        <input type="text" value={node.link || ''} onChange={e => {
+                          const nodes = [...data.timelineNodes];
+                          nodes[idx].link = e.target.value;
+                          setData({ ...data, timelineNodes: nodes });
+                        }} className={inputCls} />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      <div>
+                        <label className="block text-[9px] font-mono text-gray-500 tracking-widest mb-1 uppercase">Icon Name (Lucide)</label>
+                        <input type="text" value={node.iconName} placeholder="e.g. Shield, Terminal" onChange={e => {
+                          const nodes = [...data.timelineNodes];
+                          nodes[idx].iconName = e.target.value;
+                          setData({ ...data, timelineNodes: nodes });
+                        }} className={inputCls} />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-mono text-gray-500 tracking-widest mb-1 uppercase">Status</label>
+                        <select value={node.status} onChange={e => {
+                          const nodes = [...data.timelineNodes];
+                          nodes[idx].status = e.target.value;
+                          setData({ ...data, timelineNodes: nodes });
+                        }} className={inputCls}>
+                          <option value="completed">Completed</option>
+                          <option value="in-progress">In Progress</option>
+                          <option value="pending">Pending</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-mono text-gray-500 tracking-widest mb-1 uppercase">Energy %</label>
+                        <input type="number" value={node.energy} onChange={e => {
+                          const nodes = [...data.timelineNodes];
+                          nodes[idx].energy = Number(e.target.value);
+                          setData({ ...data, timelineNodes: nodes });
+                        }} className={inputCls} />
+                      </div>
+                    </div>
+
+                    <div className="mb-4">
+                      <label className="block text-[9px] font-mono text-gray-500 tracking-widest mb-1 uppercase">Content</label>
+                      <textarea value={node.content} onChange={e => {
+                        const nodes = [...data.timelineNodes];
+                        nodes[idx].content = e.target.value;
+                        setData({ ...data, timelineNodes: nodes });
+                      }} className={`${inputCls} resize-none h-20`} />
+                    </div>
+                  </div>
+                ))}
+                {(!data.timelineNodes || data.timelineNodes.length === 0) && (
+                  <div className="text-center py-6 text-gray-500 font-mono text-xs border border-dashed border-white/10 rounded-xl">No nodes added yet.</div>
+                )}
               </div>
             </div>
           </>)}
@@ -359,11 +479,7 @@ function MessagesTab({ showToast }: { showToast: (m: string, t?: 'success' | 'er
 
 // ─── LoginPage ────────────────────────────────────────────────────────────────
 function LoginPage() {
-<<<<<<< HEAD
   const [form, setForm] = useState({ email: '', password: '' });
-=======
-  const [form, setForm] = useState({ username: '', password: '' });
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPass, setShowPass] = useState(false);
@@ -371,11 +487,7 @@ function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true); setError('');
-<<<<<<< HEAD
     const res = await signIn('credentials', { redirect: false, email: form.email, password: form.password });
-=======
-    const res = await signIn('credentials', { redirect: false, username: form.username, password: form.password });
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
     setLoading(false);
     if (res?.error) {
       setError('Invalid credentials. Access denied.');
@@ -386,33 +498,21 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative"
-<<<<<<< HEAD
       style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.07) 0%, transparent 70%)' }}>
       <div className="fixed inset-0 -z-10 pointer-events-none"
         style={{ backgroundImage: 'linear-gradient(rgba(168,85,247,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,0.025) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
-=======
-      style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(157,0,255,0.07) 0%, transparent 70%)' }}>
-      <div className="fixed inset-0 -z-10 pointer-events-none"
-        style={{ backgroundImage: 'linear-gradient(rgba(157,0,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(157,0,255,0.025) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="w-full max-w-md">
         <div className="text-center mb-10">
           <div className="relative inline-flex items-center justify-center w-20 h-20 mb-6">
-<<<<<<< HEAD
             <div className="absolute inset-0 rounded-2xl bg-neon-purple/15 blur-xl animate-pulse" />
             <div className="relative w-20 h-20 rounded-2xl bg-[#0c0c16] border border-neon-purple/30 flex items-center justify-center text-3xl shadow-[0_0_20px_rgba(168,85,247,0.2)]">🔐</div>
-=======
-            <div className="absolute inset-0 rounded-2xl bg-neon-purple/20 blur-xl animate-pulse" />
-            <div className="relative w-20 h-20 rounded-2xl bg-[#0c0c16] border border-neon-purple/30 flex items-center justify-center text-3xl shadow-[0_0_30px_rgba(157,0,255,0.3)]">🔐</div>
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
           </div>
           <h1 className="text-3xl font-bold text-white font-display mb-2">Secure Access</h1>
           <p className="text-[10px] font-mono text-gray-500 tracking-[0.2em]">ADMIN CONTROL PANEL · RESTRICTED</p>
         </div>
 
         <div className="relative rounded-2xl overflow-hidden"
-<<<<<<< HEAD
           style={{ background: 'rgba(8,8,15,0.92)', border: '1px solid rgba(168,85,247,0.2)', boxShadow: '0 0 40px rgba(168,85,247,0.06), 0 24px 64px rgba(0,0,0,0.7)' }}>
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-purple to-transparent" />
           <form onSubmit={handleLogin} className="p-8 space-y-5">
@@ -423,18 +523,6 @@ function LoginPage() {
                 <input type="email" required value={form.email}
                   onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                   placeholder="admin@jaiz.sec" className={`${inputCls} pl-8`} autoComplete="email" />
-=======
-          style={{ background: 'rgba(8,8,15,0.92)', border: '1px solid rgba(157,0,255,0.2)', boxShadow: '0 0 60px rgba(157,0,255,0.08), 0 24px 64px rgba(0,0,0,0.7)' }}>
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-purple to-transparent" />
-          <form onSubmit={handleLogin} className="p-8 space-y-5">
-            <div>
-              <label className={labelCls}>Username</label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 font-mono text-sm">@</span>
-                <input type="text" required value={form.username}
-                  onChange={e => setForm(f => ({ ...f, username: e.target.value }))}
-                  placeholder="JAISHANTH" className={`${inputCls} pl-8`} autoComplete="username" />
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
               </div>
             </div>
             <div>
@@ -460,11 +548,7 @@ function LoginPage() {
             <button type="submit" disabled={loading}
               className="w-full py-3.5 rounded-xl font-mono font-medium text-sm text-white transition-all
               bg-gradient-to-r from-neon-purple/20 to-indigo-900/30 border border-neon-purple/40
-<<<<<<< HEAD
               hover:border-neon-purple/80 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]
-=======
-              hover:border-neon-purple/80 hover:shadow-[0_0_30px_rgba(157,0,255,0.25)]
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
               disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]">
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -503,27 +587,30 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
   // ── Inactivity auto-logout ──────────────────────────────────────────────────
   useEffect(() => {
     if (status !== 'authenticated') return;
-    let timer: ReturnType<typeof setTimeout>;
-    let warningTimer: ReturnType<typeof setTimeout>;
     
-    const reset = () => {
-      clearTimeout(timer);
-      clearTimeout(warningTimer);
-      
-      warningTimer = setTimeout(() => {
-        setToast({ msg: '⚠️ Session expiring in 10 seconds due to inactivity. Move mouse to stay logged in.', type: 'error' });
-      }, WARNING_MS);
-
-      timer = setTimeout(() => signOut({ callbackUrl: '/dashboard' }), INACTIVITY_MS);
-    };
+    let lastActivity = Date.now();
+    const updateActivity = () => { lastActivity = Date.now(); };
     
     const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'] as const;
-    events.forEach(ev => window.addEventListener(ev, reset, { passive: true }));
-    reset();
-    return () => { 
-      clearTimeout(timer); 
-      clearTimeout(warningTimer);
-      events.forEach(ev => window.removeEventListener(ev, reset)); 
+    events.forEach(ev => window.addEventListener(ev, updateActivity, { passive: true }));
+    
+    let warned = false;
+    const interval = setInterval(() => {
+      const inactiveFor = Date.now() - lastActivity;
+      if (inactiveFor >= INACTIVITY_MS) {
+        clearInterval(interval);
+        signOut({ callbackUrl: '/dashboard' });
+      } else if (inactiveFor >= WARNING_MS && !warned) {
+        warned = true;
+        setToast({ msg: '⚠️ Session expiring in 10 seconds due to inactivity. Move mouse to stay logged in.', type: 'error' });
+      } else if (inactiveFor < WARNING_MS && warned) {
+        warned = false; // Reset warning if user became active again
+      }
+    }, 1000);
+    
+    return () => {
+      clearInterval(interval);
+      events.forEach(ev => window.removeEventListener(ev, updateActivity));
     };
   }, [status]);
 
@@ -570,18 +657,8 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
     if (status === 'authenticated') loadData();
   }, [status, loadData]);
 
-<<<<<<< HEAD
   // Image uploads are now handled by MediaUploader → Cloudinary → URL string
   // No more base64 DataURL encoding (which breaks on Vercel and bloats MongoDB)
-=======
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => setFormData((prev: any) => ({ ...prev, [field]: reader.result as string }));
-    reader.readAsDataURL(file);
-  };
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -591,11 +668,8 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
         const d = {
           title: formData.title, description: formData.description,
           tags: formData.tags?.split(',').map((t: string) => t.trim()).filter(Boolean) || [],
-<<<<<<< HEAD
           metrics: formData.metrics?.split(',').map((t: string) => t.trim()).filter(Boolean) || [],
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
-          githubUrl: formData.githubUrl, liveUrl: formData.liveUrl,
+          githubUrl: formData.githubUrl, liveUrl: formData.liveUrl, youtubeUrl: formData.youtubeUrl,
           category: formData.category, imageUrl: formData.image, videoUrl: formData.videoUrl,
         };
         editId ? await updateProject(editId, d) : await createProject(d);
@@ -644,10 +718,7 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
       title: rec.title || rec.platform || '',
       description: rec.description || '',
       tags: Array.isArray(rec.tags) ? rec.tags.join(', ') : '',
-<<<<<<< HEAD
       metrics: Array.isArray(rec.metrics) ? rec.metrics.join(', ') : '',
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       githubUrl: rec.githubUrl || '',
       liveUrl: rec.liveUrl || '',
       category: rec.category || '',
@@ -673,20 +744,12 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
     try {
       const res = await fetch('/api/admin/change-credentials', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-<<<<<<< HEAD
         body: JSON.stringify({ password: credForm.newPassword }),
-=======
-        body: JSON.stringify({ username: credForm.username || session?.user?.name, password: credForm.newPassword }),
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setCredForm({ username: '', newPassword: '', confirmPassword: '' });
-<<<<<<< HEAD
       showToast('✓ Password updated! Signing out...');
-=======
-      showToast('✓ Credentials updated! Signing out...');
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       setTimeout(() => signOut(), 2500);
     } catch (err: any) { showToast(err.message, 'error'); }
     finally { setCredLoading(false); }
@@ -716,10 +779,7 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
     { id: 'social',    label: 'Social Media', icon: '◉', badge: socials.length || undefined },
     { id: 'messages',  label: 'Messages',     icon: '✉', badge: unreadCount || undefined },
     { id: 'content',   label: 'Site Content', icon: '✎' },
-<<<<<<< HEAD
     ...((session?.user as any)?.role === 'ADMIN' ? [{ id: 'users' as TabId, label: 'Users', icon: '👥' }] : []),
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
     { id: 'settings',  label: 'Credentials',  icon: '⚙' },
   ];
 
@@ -909,13 +969,14 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
                                     <input type="url" value={formData.liveUrl || ''} onChange={e => setFormData((f: any) => ({ ...f, liveUrl: e.target.value }))} className={inputCls} placeholder="https://..." />
                                   </div>
                                 </div>
-<<<<<<< HEAD
                                 <div>
                                   <label className={labelCls}>Metrics (comma separated, e.g. &quot;Scanned 100+ hosts, Detects open ports&quot;)</label>
                                   <input type="text" value={formData.metrics || ''} onChange={e => setFormData((f: any) => ({ ...f, metrics: e.target.value }))} className={inputCls} placeholder="Scanned 100+ hosts, Detects CVEs..." />
                                 </div>
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
+                                <div>
+                                  <label className={labelCls}>YouTube Demo URL</label>
+                                  <input type="url" value={formData.youtubeUrl || ''} onChange={e => setFormData((f: any) => ({ ...f, youtubeUrl: e.target.value }))} className={inputCls} placeholder="https://youtube.com/watch?v=..." />
+                                </div>
                               </>)}
 
                               {/* CERTS */}
@@ -1045,14 +1106,7 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
                     )}
                   </div>
                 ) : (
-<<<<<<< HEAD
                   <EmptyState type={activeTab} />
-=======
-                  <div className="text-center py-16 text-gray-700">
-                    <div className="text-5xl mb-4 opacity-20">◈</div>
-                    <p className="font-mono text-sm">No records yet. Create your first entry above.</p>
-                  </div>
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
                 )}
               </div>
             )}
@@ -1063,12 +1117,9 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
             {/* ── SITE CONTENT ───────────────────────────────────── */}
             {activeTab === 'content' && <ContentTab showToast={showToast} />}
 
-<<<<<<< HEAD
             {/* ── USERS ──────────────────────────────────────────── */}
             {activeTab === 'users' && <UsersTab showToast={showToast} currentUserId={(session?.user as any)?.userId} />}
 
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
             {/* ── CREDENTIALS ────────────────────────────────────── */}
             {activeTab === 'settings' && (
               <div className="max-w-lg">

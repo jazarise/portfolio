@@ -1,9 +1,15 @@
-<<<<<<< HEAD
+/**
+ * MongoDB Seed Script
+ * Run: npx tsx scripts/seed.ts
+ * Seeds initial admin user, projects, certs, and blog posts.
+ */
+
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/portfolio';
 
+// ─── Models ───────────────────────────────────────────────────────────────
 const PermissionSchema = new mongoose.Schema({
   createBlog:   { type: Boolean, default: false },
   editOwnPosts: { type: Boolean, default: true },
@@ -21,52 +27,6 @@ const UserSchema = new mongoose.Schema({
   permissions: { type: PermissionSchema, default: () => ({}) },
 }, { timestamps: true });
 
-const User = mongoose.models.User || mongoose.model('User', UserSchema);
-
-async function seedAdmin() {
-  console.log('🔗 Connecting to MongoDB...');
-  await mongoose.connect(MONGODB_URI);
-  console.log('✅ Connected.');
-
-  const adminEmail = 'admin@jaiz.sec';
-  const existing = await User.findOne({ email: adminEmail });
-
-  if (existing) {
-    console.log('⚠️  Admin user already exists. Skipping seed.');
-  } else {
-    const hashedPassword = await bcrypt.hash('Jaims@1402', 12);
-    await User.create({
-      name: 'JAISHANTH',
-      email: adminEmail,
-      password: hashedPassword,
-      role: 'ADMIN',
-      permissions: {},
-    });
-    console.log('✅ Admin user created:');
-    console.log('   Email:    admin@jaiz.sec');
-    console.log('   Password: Jaims@1402');
-    console.log('   Role:     ADMIN');
-  }
-
-  await mongoose.disconnect();
-  console.log('🔌 Disconnected.');
-  process.exit(0);
-}
-
-seedAdmin().catch(err => {
-=======
-/**
- * MongoDB Seed Script
- * Run: npx tsx scripts/seed.ts
- * Seeds initial projects, certs, and blog posts that will show in BOTH
- * the public pages AND the admin dashboard (single source of truth).
- */
-
-import mongoose from 'mongoose';
-
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/portfolio';
-
-// ─── Models (inline to avoid TS path alias issues in script) ─────────────────
 const ProjectSchema = new mongoose.Schema({
   title: String, description: String, longDescription: String,
   category: String, tags: [String], githubUrl: String,
@@ -83,9 +43,10 @@ const BlogPostSchema = new mongoose.Schema({
   slug: { type: String, unique: true }, coverImage: String, tags: [String],
 }, { timestamps: true });
 
-const Project     = mongoose.models.Project     || mongoose.model('Project',     ProjectSchema);
+const User        = mongoose.models.User        || mongoose.model('User', UserSchema);
+const Project     = mongoose.models.Project     || mongoose.model('Project', ProjectSchema);
 const Certificate = mongoose.models.Certificate || mongoose.model('Certificate', CertificateSchema);
-const BlogPost    = mongoose.models.BlogPost    || mongoose.model('BlogPost',    BlogPostSchema);
+const BlogPost    = mongoose.models.BlogPost    || mongoose.model('BlogPost', BlogPostSchema);
 
 // ─── Seed Data ────────────────────────────────────────────────────────────────
 const PROJECTS = [
@@ -160,6 +121,24 @@ async function seed() {
   await mongoose.connect(MONGODB_URI);
   console.log('✅ Connected.');
 
+  // Admin user
+  const adminEmail = 'admin@jaiz.sec';
+  const existing = await User.findOne({ email: adminEmail });
+
+  if (existing) {
+    console.log('⚠️  Admin user already exists. Skipping seed.');
+  } else {
+    const hashedPassword = await bcrypt.hash('Jaims@1402', 12);
+    await User.create({
+      name: 'JAISHANTH',
+      email: adminEmail,
+      password: hashedPassword,
+      role: 'ADMIN',
+      permissions: {},
+    });
+    console.log('✅ Admin user created (admin@jaiz.sec).');
+  }
+
   // Clear existing data
   await Promise.all([
     Project.deleteMany({}),
@@ -185,7 +164,6 @@ async function seed() {
 }
 
 seed().catch(err => {
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   console.error('❌ Seed failed:', err);
   process.exit(1);
 });

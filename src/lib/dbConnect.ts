@@ -24,6 +24,8 @@ async function dbConnect() {
       serverSelectionTimeoutMS: 2000, // Fast fail when DB is offline
     };
 
+    mongoose.set('strictQuery', false);
+
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       console.log('✅ Connected to MongoDB');
       return mongoose;

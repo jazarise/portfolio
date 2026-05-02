@@ -8,7 +8,6 @@ import { SiTryhackme, SiHackthebox } from 'react-icons/si';
 const getSocialIcon = (platform: string) => {
   const p = platform.toLowerCase();
   
-<<<<<<< HEAD
   if (p.includes('linkedin')) return <FaLinkedin className="w-5 h-5" />;
   if (p.includes('github')) return <FaGithub className="w-5 h-5" />;
   if (p.includes('instagram')) return <FaInstagram className="w-5 h-5" />;
@@ -32,18 +31,6 @@ const getHoverColor = (platform: string) => {
   if (p.includes('twitter') || p.includes('x')) return 'hover:text-[#1DA1F2] hover:border-[#1DA1F2]/30';
   if (p.includes('email') || p.includes('mail')) return 'hover:text-neon-cyan hover:border-neon-cyan/30';
   return 'hover:text-neon-purple hover:border-neon-purple/30';
-=======
-  if (p.includes('linkedin')) return <FaLinkedin className="w-5 h-5 group-hover:text-[#0077b5]" />;
-  if (p.includes('github')) return <FaGithub className="w-5 h-5 group-hover:text-white" />;
-  if (p.includes('instagram')) return <FaInstagram className="w-5 h-5 group-hover:text-pink-500" />;
-  if (p.includes('discord')) return <FaDiscord className="w-5 h-5 group-hover:text-[#5865F2]" />;
-  if (p.includes('tryhackme')) return <SiTryhackme className="w-5 h-5 group-hover:text-[#88cc14]" />;
-  if (p.includes('hackthebox') || p.includes('htb')) return <SiHackthebox className="w-5 h-5 group-hover:text-[#9fef00]" />;
-  if (p.includes('twitter') || p.includes('x')) return <FaTwitter className="w-5 h-5 group-hover:text-[#1DA1F2]" />;
-  if (p.includes('email') || p.includes('mail')) return <FaEnvelope className="w-5 h-5 group-hover:text-neon-cyan" />;
-  
-  return <span className="w-5 h-5 group-hover:text-neon-purple text-center tracking-tighter" style={{ fontFamily: 'sans-serif' }}>🔗</span>;
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 };
 
 export default function Footer({ previewCfg, previewSocials }: { previewCfg?: any, previewSocials?: any[] }) {
@@ -53,11 +40,7 @@ export default function Footer({ previewCfg, previewSocials }: { previewCfg?: an
   
   return (
     <footer className="border-t border-dark-border bg-dark-main relative overflow-hidden">
-<<<<<<< HEAD
       <div className="absolute top-0 right-0 w-64 h-64 bg-neon-purple/3 blur-[100px] -z-10 rounded-full" />
-=======
-      <div className="absolute top-0 right-0 w-64 h-64 bg-neon-purple/5 blur-[100px] -z-10 rounded-full" />
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       <div className="max-w-7xl mx-auto px-6 py-10 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Brand */}
@@ -74,19 +57,11 @@ export default function Footer({ previewCfg, previewSocials }: { previewCfg?: an
               })()}
             </Link>
             <p className="font-mono text-xs text-gray-500">
-<<<<<<< HEAD
               {cfg?.copyrightText || `Cybersecurity Student & Aspiring Red Teamer © ${new Date().getFullYear()}`}
             </p>
           </div>
 
           {/* Social Links with proper icons */}
-=======
-              {cfg?.copyrightText || `Secure Systems & Architecture © ${new Date().getFullYear()}`}
-            </p>
-          </div>
-
-          {/* Social Links with logos */}
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
           <div className="flex items-center gap-1">
             {socialLinks.map((link: any) => (
               <a
@@ -94,21 +69,12 @@ export default function Footer({ previewCfg, previewSocials }: { previewCfg?: an
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-<<<<<<< HEAD
                 aria-label={`Visit ${link.platform}`}
                 className={`group flex items-center justify-center w-10 h-10 rounded-xl
                   bg-white/5 border border-white/5
                   hover:bg-white/10
                   text-gray-500
                   transition-all duration-200 ${getHoverColor(link.platform)}`}
-=======
-                title={link.platform}
-                className={`group flex items-center justify-center w-10 h-10 rounded-xl
-                  bg-white/5 border border-white/5
-                  hover:border-white/20 hover:bg-white/10
-                  text-gray-500 hover:text-white
-                  transition-all duration-200 text-xl`}
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
               >
                 {getSocialIcon(link.platform)}
               </a>

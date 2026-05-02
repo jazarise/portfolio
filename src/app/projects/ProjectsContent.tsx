@@ -1,15 +1,13 @@
 'use client';
-
+import Image from 'next/image';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Reveal from '@/components/Reveal';
 import GlassCard from '@/components/GlassCard';
+import ProjectVideoPlayer from '@/components/ProjectVideoPlayer';
 import { smartPlaceholder } from '@/lib/utils';
-<<<<<<< HEAD
 import { FaGithub } from 'react-icons/fa';
 import { ExternalLink } from 'lucide-react';
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 
 // ─── Icon helpers ─────────────────────────────────────────────────────────────
 function ProjectMedia({ src, videoUrl, category, cover = false }: { src?: string; videoUrl?: string; category?: string; cover?: boolean }) {
@@ -28,7 +26,7 @@ function ProjectMedia({ src, videoUrl, category, cover = false }: { src?: string
     }
     return <video src={videoUrl} autoPlay loop muted playsInline className={`relative z-10 w-full h-full ${cover ? 'object-cover' : 'object-contain'}`} />;
   }
-  if (src) return <img src={src} alt="Project Media" className={`relative z-10 w-full h-full ${cover ? 'object-cover' : 'object-contain scale-75'}`} />;
+  if (src) return <Image src={src} fill sizes="(max-width: 768px) 100vw, 500px" alt="Project Media" className={`relative z-10 ${cover ? 'object-cover' : 'object-contain scale-75'}`} />;
   
   const icons: Record<string, string> = {
     'SECURITY TOOL': '🔍', 'SECURITY APP': '🔐', 'ML + SECURITY': '🧠',
@@ -37,19 +35,6 @@ function ProjectMedia({ src, videoUrl, category, cover = false }: { src?: string
   return <div className="text-6xl absolute inset-0 flex items-center justify-center pointer-events-none animate-[float_4s_ease-in-out_infinite] z-10">{icons[category?.toUpperCase() ?? ''] ?? '🚀'}</div>;
 }
 
-<<<<<<< HEAD
-=======
-function ExternalIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-      <polyline points="15 3 21 3 21 9" />
-      <line x1="10" y1="14" x2="21" y2="3" />
-    </svg>
-  );
-}
-
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 // ─── Normalize a raw DB project to the display shape ──────────────────────────
 function normalize(p: any) {
   return {
@@ -60,12 +45,10 @@ function normalize(p: any) {
     desc:     p.description,
     longDesc: p.longDescription ?? p.description,
     tags:     Array.isArray(p.tags) ? p.tags : [],
-<<<<<<< HEAD
     metrics:  Array.isArray(p.metrics) ? p.metrics : [],
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
     github:   p.githubUrl ?? null,
     demo:     p.liveUrl ?? null,
+    youtube:  p.youtubeUrl ?? null,
     iconSrc:  p.imageUrl ?? p.iconSvg ?? null,
     videoUrl: p.videoUrl ?? null,
   };
@@ -74,7 +57,6 @@ function normalize(p: any) {
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProjects?: any[], cfg?: any }) {
   const allProjects = dbProjects.map(normalize);
-<<<<<<< HEAD
   // Sort: featured first, then security-focused categories
   const sortedProjects = [...allProjects].sort((a, b) => {
     if (a.featured && !b.featured) return -1;
@@ -87,8 +69,6 @@ export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProje
     return 0;
   });
 
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const [selected, setSelected] = useState<ReturnType<typeof normalize> | null>(null);
 
   return (
@@ -99,7 +79,6 @@ export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProje
             // 03. WORK & ARCHITECTURE
           </div>
           <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-<<<<<<< HEAD
             {smartPlaceholder(cfg.title, 'Security Projects & Tools')}
           </h1>
           <p className="text-gray-400 max-w-2xl mb-12">
@@ -108,16 +87,6 @@ export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProje
         </Reveal>
 
         {sortedProjects.length === 0 ? (
-=======
-            {smartPlaceholder(cfg.title, 'Projects & Tools')}
-          </h1>
-          <p className="text-gray-400 max-w-2xl mb-12">
-            {smartPlaceholder(cfg.subtitle, 'Security tools, applications, and research systems designed with clean architecture and modern performance standards.')}
-          </p>
-        </Reveal>
-
-        {allProjects.length === 0 ? (
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
           <Reveal delay={0.1}>
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <div className="text-6xl mb-6 opacity-20">◻</div>
@@ -129,11 +98,7 @@ export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProje
           </Reveal>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-<<<<<<< HEAD
             {sortedProjects.map((project, i) => (
-=======
-            {allProjects.map((project, i) => (
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
               <Reveal key={project.id} delay={i * 0.1}>
                 <div onClick={() => setSelected(project)} className="cursor-pointer h-full">
                   <GlassCard className="h-full flex flex-col hover:-translate-y-2 transition-transform duration-300">
@@ -149,7 +114,6 @@ export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProje
                     <div className="p-6 flex flex-col flex-1">
                       <div className="text-[10px] font-mono tracking-widest text-neon-purple mb-2">{project.category}</div>
                       <h3 className="text-xl font-display font-bold text-white mb-3">{project.title}</h3>
-<<<<<<< HEAD
                       <p className="text-sm text-gray-400 leading-relaxed mb-4 flex-1">{project.desc}</p>
                       
                       {/* Metrics */}
@@ -186,14 +150,14 @@ export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProje
                             </a>
                           )}
                         </div>
-=======
-                      <p className="text-sm text-gray-400 leading-relaxed mb-6 flex-1">{project.desc}</p>
-                      <div className="flex flex-wrap gap-2 mt-auto">
-                        {project.tags.map((tag: string) => (
-                          <span key={tag} className="text-xs px-2 py-1 bg-white/5 border border-white/10 rounded-md text-gray-300">{tag}</span>
-                        ))}
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
                       </div>
+                      
+                      {/* YouTube Demo Integration */}
+                      {project.youtube && (
+                        <div onClick={e => e.stopPropagation()}>
+                          <ProjectVideoPlayer youtubeUrl={project.youtube} />
+                        </div>
+                      )}
                     </div>
                   </GlassCard>
                 </div>
@@ -217,11 +181,7 @@ export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProje
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onClick={e => e.stopPropagation()}
-<<<<<<< HEAD
               className="bg-dark-panel border border-neon-purple/50 rounded-2xl max-w-2xl w-full text-left shadow-[0_0_40px_rgba(168,85,247,0.2)] relative overflow-hidden flex flex-col md:flex-row"
-=======
-              className="bg-dark-panel border border-neon-purple/50 rounded-2xl max-w-2xl w-full text-left shadow-[0_0_50px_rgba(157,0,255,0.3)] relative overflow-hidden flex flex-col md:flex-row"
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
             >
               <div className="md:w-[45%] bg-black border-r border-dark-border flex items-center justify-center relative overflow-hidden h-64 md:h-auto">
                 <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/10 to-transparent z-20 pointer-events-none" />
@@ -230,7 +190,6 @@ export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProje
               <div className="md:w-[55%] p-8 max-h-[85vh] overflow-y-auto">
                 <div className="text-[10px] font-mono tracking-widest text-neon-purple mb-2">{selected.category}</div>
                 <h2 className="font-display text-2xl font-bold text-white mb-4">{selected.title}</h2>
-<<<<<<< HEAD
                 <p className="text-sm text-gray-400 leading-relaxed mb-4">{selected.longDesc}</p>
 
                 {/* Metrics in modal */}
@@ -244,44 +203,34 @@ export default function ProjectsContent({ dbProjects = [], cfg = {} }: { dbProje
                   </div>
                 )}
 
-=======
-                <p className="text-sm text-gray-400 leading-relaxed mb-6">{selected.longDesc}</p>
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
                 <div className="flex flex-wrap gap-2 mb-8">
                   {selected.tags.map((tag: string, i: number) => (
                     <span key={i} className="text-xs px-2 py-1 bg-white/5 border border-white/10 rounded-md text-gray-300">{tag}</span>
                   ))}
                 </div>
-                <div className="flex gap-4">
-                  {selected.github && (
-                    <a href={selected.github} target="_blank" rel="noopener noreferrer"
-<<<<<<< HEAD
-                      className="px-5 py-2.5 rounded-lg border border-dark-border bg-white/5 hover:bg-white/10 text-white text-sm transition-all flex items-center gap-2">
-                      <FaGithub className="w-4 h-4" /> Source Code
-=======
-                      className="px-5 py-2.5 rounded-lg border border-dark-border bg-white/5 hover:bg-white/10 text-white text-sm transition-all">
-                      View Source
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
-                    </a>
-                  )}
-                  {selected.demo && (
-                    <a href={selected.demo} target="_blank" rel="noopener noreferrer" className="neon-btn text-sm py-2.5">
-<<<<<<< HEAD
-                      <ExternalLink className="w-4 h-4" /> Live Preview
-=======
-                      <ExternalIcon /> Live Preview
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
-                    </a>
+                <div className="flex flex-col gap-4">
+                  <div className="flex gap-4">
+                    {selected.github && (
+                      <a href={selected.github} target="_blank" rel="noopener noreferrer"
+                        className="px-5 py-2.5 rounded-lg border border-dark-border bg-white/5 hover:bg-white/10 text-white text-sm transition-all flex items-center gap-2">
+                        <FaGithub className="w-4 h-4" /> Source Code
+                      </a>
+                    )}
+                    {selected.demo && (
+                      <a href={selected.demo} target="_blank" rel="noopener noreferrer" className="neon-btn text-sm py-2.5">
+                        <ExternalLink className="w-4 h-4" /> Live Preview
+                      </a>
+                    )}
+                  </div>
+                  {/* YouTube Demo Integration */}
+                  {selected.youtube && (
+                    <ProjectVideoPlayer youtubeUrl={selected.youtube} />
                   )}
                 </div>
               </div>
               <button onClick={() => setSelected(null)}
-<<<<<<< HEAD
                 className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-gray-400 hover:text-white transition-all"
                 aria-label="Close modal">
-=======
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-gray-400 hover:text-white transition-all">
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
                 ✕
               </button>
             </motion.div>

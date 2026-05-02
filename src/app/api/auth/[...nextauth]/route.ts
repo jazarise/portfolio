@@ -1,19 +1,14 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-<<<<<<< HEAD
 import bcrypt from 'bcryptjs';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
-=======
-import { getAdminCredentials } from '@/lib/credentials-store';
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Admin Login',
       credentials: {
-<<<<<<< HEAD
         email:    { label: 'Email',    type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
@@ -44,31 +39,14 @@ export const authOptions: NextAuthOptions = {
           role: user.role,
           permissions: user.permissions ? user.permissions.toObject() : {},
         };
-=======
-        username: { label: 'Username', type: 'text' },
-        password: { label: 'Password', type: 'password' },
-      },
-      async authorize(credentials) {
-        if (!credentials?.username || !credentials?.password) return null;
-        const { username, password } = getAdminCredentials();
-        if (credentials.username === username && credentials.password === password) {
-          return { id: '1', name: username, email: `${username}@admin.local` };
-        }
-        return null;
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       },
     }),
   ],
 
   session: {
     strategy: 'jwt',
-<<<<<<< HEAD
     maxAge: 8 * 60 * 60,
     updateAge: 15 * 60,
-=======
-    maxAge: 8 * 60 * 60,           // 8 hour absolute max
-    updateAge: 15 * 60,             // Refresh session every 15 min of activity
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   },
 
   jwt: {
@@ -78,15 +56,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-<<<<<<< HEAD
         token.id = user.id;
         token.name = user.name;
         token.role = (user as any).role || 'VIEWER';
         token.permissions = (user as any).permissions || {};
-=======
-        token.name = user.name;
-        token.id = user.id;
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
         token.loginAt = Date.now();
       }
       return token;
@@ -94,15 +67,11 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token && session.user) {
         session.user.name = token.name as string;
-<<<<<<< HEAD
         // ── CRITICAL: Put role and userId on session.user so getServerSession
         //    reliably returns them in both API routes and server actions ──
         (session.user as any).role = token.role;
         (session.user as any).userId = token.id;
         (session.user as any).permissions = token.permissions;
-=======
-        (session as any).userId = token.id;
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
       }
       return session;
     },
@@ -115,19 +84,7 @@ export const authOptions: NextAuthOptions = {
 
   secret: process.env.NEXTAUTH_SECRET || 'supersecretneonkey2026',
 
-  cookies: {
-    sessionToken: {
-      name: process.env.NODE_ENV === 'production'
-        ? '__Secure-next-auth.session-token'
-        : 'next-auth.session-token',
-      options: {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-      },
-    },
-  },
+  debug: false,
 };
 
 const handler = NextAuth(authOptions);

@@ -134,7 +134,7 @@ export async function PATCH(req: NextRequest) {
       updates.email = updates.email.toLowerCase();
     }
 
-    const user = await User.findByIdAndUpdate(id, { $set: updates }, { new: true }).select('-password');
+    const user = await User.findByIdAndUpdate(id, { $set: updates }, { returnDocument: 'after' }).select('-password');
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
     return NextResponse.json(JSON.parse(JSON.stringify(user)));

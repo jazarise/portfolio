@@ -1,3 +1,10 @@
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
 export function smartPlaceholder(value: string | undefined | null, fallback: string = '🚧 Stay tuned… something awesome is coming'): string {
   if (!value || value.trim() === '') {
     return fallback;

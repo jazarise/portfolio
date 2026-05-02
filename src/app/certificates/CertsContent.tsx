@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Reveal from '@/components/Reveal';
@@ -59,11 +59,12 @@ export default function CertsContent({ dbCerts = [], cfg = {} }: { dbCerts?: any
                     {/* Image or placeholder */}
                     <div className="relative w-full h-44 border-b border-white/5 overflow-hidden">
                       {cert.image ? (
-                        <img
-                          loading="lazy"
+                        <Image
                           src={cert.image}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 400px"
                           alt={cert.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60 group-hover:opacity-100"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-60 group-hover:opacity-100"
                         />
                       ) : (
                         <div className="absolute inset-0 bg-dark-main flex items-center justify-center text-5xl">📜</div>
@@ -131,7 +132,7 @@ export default function CertsContent({ dbCerts = [], cfg = {} }: { dbCerts?: any
                   </div>
                 ) : selected.image ? (
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-white/10 mb-6 bg-black">
-                    <img src={selected.image} alt={selected.title} className="w-full h-full object-contain" />
+                    <Image src={selected.image} fill sizes="(max-width: 768px) 100vw, 800px" alt={selected.title} className="object-contain" />
                   </div>
                 ) : (
                   <div className="text-6xl mb-6 py-12 border border-white/5 rounded-lg bg-white/5">📜</div>

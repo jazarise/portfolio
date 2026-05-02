@@ -8,7 +8,6 @@ import SocialMedia from '@/models/SocialMedia';
 import Contact from '@/models/Contact';
 import ContentSection from '@/models/ContentSection';
 import { revalidatePath } from 'next/cache';
-<<<<<<< HEAD
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
@@ -35,35 +34,22 @@ async function requireAdmin() {
   }
   if (role !== 'ADMIN') throw new Error('Forbidden: Admin access required');
 }
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
 
 // ─── Content Sections ────────────────────────────────────────────────────────
 
 const DEFAULT_CONTENT: Record<string, any> = {
   home: {
     heading: 'Jaishanth M',
-<<<<<<< HEAD
     subheading: 'Aspiring Red Teamer',
     tagline: 'Cybersecurity Student',
     bio: 'CS student with a security-first mindset. I break things to understand how to defend them — from network penetration testing to web app exploitation. Hands-on experience with TryHackMe, HackTheBox, and real-world security labs.',
-=======
-    subheading: 'Ethical Hacker',
-    tagline: 'Cybersecurity Enthusiast',
-    bio: 'Building secure systems from the ground up. CS student obsessed with offensive security, clean code, and breaking things to understand them better.',
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
     availableForWork: true,
     location: 'Tamil Nadu, India',
     email: 'jaishanthcys@gmail.com',
     statProjects: '15+',
     statCerts: '6',
-<<<<<<< HEAD
     platforms: 'TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth; Hack The Box,Hacker,#9fef00,https://hackthebox.com',
     skills: 'Penetration Testing,85;Network Security,80;VAPT & Threat Analysis,78;Python/Scripting,90;Web App Security,82;Malware Analysis,65',
-=======
-    platforms: 'TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth; HackerRank,Hacker,#00EA64,https://hackerrank.com',
-    skills: 'Penetration Testing,85;Network Security,80;Python/Scripting,90;Web App Security,82;Malware Analysis,65',
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   },
   about: {
     p1: 'I am a cybersecurity enthusiast and full-stack developer who believes that to defend a system, you must first know how to break it.',
@@ -101,16 +87,13 @@ export async function getContentSection(sectionId: string) {
 }
 
 export async function updateContentSection(sectionId: string, data: any) {
-<<<<<<< HEAD
   await requireAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline. Cannot save content.');
   await ContentSection.findOneAndUpdate(
     { sectionId }, 
     { $set: { data } }, 
-    { upsert: true, new: true }
+    { upsert: true, returnDocument: 'after' }
   );
   revalidatePath('/');
   revalidatePath('/about');
@@ -132,10 +115,7 @@ export async function getProjects() {
 }
 
 export async function createProject(data: any) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline. Cannot create project.');
   await Project.create(data);
@@ -144,21 +124,15 @@ export async function createProject(data: any) {
 }
 
 export async function updateProject(id: string, data: any) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
-  await Project.findByIdAndUpdate(id, data, { new: true });
+  await Project.findByIdAndUpdate(id, data, { returnDocument: 'after' });
   revalidatePath('/projects');
 }
 
 export async function deleteProject(id: string) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   await Project.findByIdAndDelete(id);
@@ -177,10 +151,7 @@ export async function getCertificates() {
 }
 
 export async function createCertificate(data: any) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   await Certificate.create(data);
@@ -188,21 +159,15 @@ export async function createCertificate(data: any) {
 }
 
 export async function updateCertificate(id: string, data: any) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
-  await Certificate.findByIdAndUpdate(id, data, { new: true });
+  await Certificate.findByIdAndUpdate(id, data, { returnDocument: 'after' });
   revalidatePath('/certificates');
 }
 
 export async function deleteCertificate(id: string) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   await Certificate.findByIdAndDelete(id);
@@ -221,10 +186,7 @@ export async function getBlogPosts() {
 }
 
 export async function createBlogPost(data: any) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   if (!data.slug && data.title) {
@@ -235,24 +197,18 @@ export async function createBlogPost(data: any) {
 }
 
 export async function updateBlogPost(id: string, data: any) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   if (!data.slug && data.title) {
     data.slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
   }
-  await BlogPost.findByIdAndUpdate(id, data, { new: true });
+  await BlogPost.findByIdAndUpdate(id, data, { returnDocument: 'after' });
   revalidatePath('/blog');
 }
 
 export async function deleteBlogPost(id: string) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   await BlogPost.findByIdAndDelete(id);
@@ -282,10 +238,7 @@ export async function getSocialLinks() {
 }
 
 export async function createSocialLink(data: any) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   await SocialMedia.create(data);
@@ -293,21 +246,15 @@ export async function createSocialLink(data: any) {
 }
 
 export async function updateSocialLink(id: string, data: any) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
-  await SocialMedia.findByIdAndUpdate(id, data, { new: true });
+  await SocialMedia.findByIdAndUpdate(id, data, { returnDocument: 'after' });
   revalidatePath('/contact');
 }
 
 export async function deleteSocialLink(id: string) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   await SocialMedia.findByIdAndDelete(id);
@@ -326,20 +273,14 @@ export async function getContactMessages() {
 }
 
 export async function deleteContactMessage(id: string) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   await Contact.findByIdAndDelete(id);
 }
 
 export async function markMessageRead(id: string) {
-<<<<<<< HEAD
   await requireEditorOrAdmin();
-=======
->>>>>>> 18fc3c3ca0143d3a92e906f6b9643fa76a46d93a
   const db = await dbConnect();
   if (!db) throw new Error('Database offline.');
   await Contact.findByIdAndUpdate(id, { read: true });
