@@ -10,6 +10,12 @@
 const fs   = require('fs');
 const path = require('path');
 
+// Skip patching in Vercel or any CI environment
+if (process.env.VERCEL || process.env.CI) {
+  console.log('Skipping enforce-webpack.cjs in CI/Vercel environment.');
+  process.exit(0);
+}
+
 const BIN      = path.resolve(__dirname, '..', 'node_modules', '.bin');
 const NEXT_SH  = path.join(BIN, 'next');        // bash/sh/Git Bash
 const NEXT_CMD = path.join(BIN, 'next.cmd');    // Windows CMD
@@ -79,6 +85,10 @@ let patched = 0;
 
 function patch(file, content, label) {
   try {
+    if (fs.existsSync(file) && fs.lstatSync(file).isSymbolicLink()) {
+      console.log('\u26a0\ufe0f  Skipping symlink', label);
+      return;
+    }
     fs.writeFileSync(file, content, { encoding: 'utf8' });
     console.log('\u2705 Patched', label);
     patched++;
