@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGlobal } from '@/lib/GlobalState';
 import RadialOrbitalTimeline from './ui/radial-orbital-timeline';
-import { Shield, Terminal, Lock, Code, Database, Bug, GraduationCap, Certificate } from 'lucide-react';
+
 
 interface ProfileModalProps {
   isOpen: boolean;
