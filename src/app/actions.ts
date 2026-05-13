@@ -9,7 +9,7 @@ import Contact from '@/models/Contact';
 import ContentSection from '@/models/ContentSection';
 import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/authOptions';
 
 // ─── Security Helpers ────────────────────────────────────────────────────────
 
@@ -46,8 +46,6 @@ const DEFAULT_CONTENT: Record<string, any> = {
     availableForWork: true,
     location: 'Tamil Nadu, India',
     email: 'jaishanthcys@gmail.com',
-    statProjects: '15+',
-    statCerts: '6',
     platforms: 'TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth; Hack The Box,Hacker,#9fef00,https://hackthebox.com',
     skills: 'Penetration Testing,85;Network Security,80;VAPT & Threat Analysis,78;Python/Scripting,90;Web App Security,82;Malware Analysis,65',
   },
@@ -105,7 +103,18 @@ export async function updateContentSection(sectionId: string, data: any) {
 
 // ─── Projects ───────────────────────────────────────────────────────────────
 
+/** Public: only visible projects */
 export async function getProjects() {
+  try {
+    const db = await dbConnect();
+    if (!db) return [];
+    const docs = await Project.find({ visible: { $ne: false } }).sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(docs));
+  } catch { return []; }
+}
+
+/** Admin: all projects including hidden */
+export async function getAllProjects() {
   try {
     const db = await dbConnect();
     if (!db) return [];
@@ -129,6 +138,7 @@ export async function updateProject(id: string, data: any) {
   if (!db) throw new Error('Database offline.');
   await Project.findByIdAndUpdate(id, data, { returnDocument: 'after' });
   revalidatePath('/projects');
+  revalidatePath('/');
 }
 
 export async function deleteProject(id: string) {
@@ -137,11 +147,23 @@ export async function deleteProject(id: string) {
   if (!db) throw new Error('Database offline.');
   await Project.findByIdAndDelete(id);
   revalidatePath('/projects');
+  revalidatePath('/');
 }
 
 // ─── Certifications ─────────────────────────────────────────────────────────
 
+/** Public: only visible certificates */
 export async function getCertificates() {
+  try {
+    const db = await dbConnect();
+    if (!db) return [];
+    const docs = await Certificate.find({ visible: { $ne: false } }).sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(docs));
+  } catch { return []; }
+}
+
+/** Admin: all certificates including hidden */
+export async function getAllCertificates() {
   try {
     const db = await dbConnect();
     if (!db) return [];
@@ -156,6 +178,7 @@ export async function createCertificate(data: any) {
   if (!db) throw new Error('Database offline.');
   await Certificate.create(data);
   revalidatePath('/certificates');
+  revalidatePath('/');
 }
 
 export async function updateCertificate(id: string, data: any) {
@@ -164,6 +187,7 @@ export async function updateCertificate(id: string, data: any) {
   if (!db) throw new Error('Database offline.');
   await Certificate.findByIdAndUpdate(id, data, { returnDocument: 'after' });
   revalidatePath('/certificates');
+  revalidatePath('/');
 }
 
 export async function deleteCertificate(id: string) {
@@ -172,11 +196,23 @@ export async function deleteCertificate(id: string) {
   if (!db) throw new Error('Database offline.');
   await Certificate.findByIdAndDelete(id);
   revalidatePath('/certificates');
+  revalidatePath('/');
 }
 
 // ─── Blog Posts ──────────────────────────────────────────────────────────────
 
+/** Public: only visible posts */
 export async function getBlogPosts() {
+  try {
+    const db = await dbConnect();
+    if (!db) return [];
+    const docs = await BlogPost.find({ visible: { $ne: false } }).sort({ createdAt: -1 }).lean();
+    return JSON.parse(JSON.stringify(docs));
+  } catch { return []; }
+}
+
+/** Admin: all posts including hidden */
+export async function getAllBlogPosts() {
   try {
     const db = await dbConnect();
     if (!db) return [];
@@ -217,19 +253,41 @@ export async function deleteBlogPost(id: string) {
 
 // ─── Social Media ────────────────────────────────────────────────────────────
 
+/** Public: only enabled social links */
 export async function getSocialLinks() {
+  try {
+    const db = await dbConnect();
+    if (!db) return [];
+    let docs = await SocialMedia.find({ enabled: { $ne: false } }).sort({ order: 1 }).lean();
+    if (docs.length === 0) {
+      const defaults = [
+        { platform: 'LinkedIn', url: 'https://linkedin.com/in/#', icon: '🔗', order: 1, enabled: true },
+        { platform: 'Instagram', url: 'https://instagram.com/#', icon: '📸', order: 2, enabled: true },
+        { platform: 'GitHub', url: 'https://github.com/#', icon: '🐙', order: 3, enabled: true },
+        { platform: 'Discord', url: '#', icon: '💬', order: 4, enabled: true },
+        { platform: 'TryHackMe', url: 'https://tryhackme.com/p/#', icon: '🛡️', order: 5, enabled: true },
+        { platform: 'Email', url: 'mailto:anonymous@example.com', icon: '✉️', order: 6, enabled: true },
+      ];
+      return defaults;
+    }
+    return JSON.parse(JSON.stringify(docs));
+  } catch { return []; }
+}
+
+/** Admin: all social links including disabled */
+export async function getAllSocialLinks() {
   try {
     const db = await dbConnect();
     if (!db) return [];
     let docs = await SocialMedia.find({}).sort({ order: 1 }).lean();
     if (docs.length === 0) {
       const defaults = [
-        { platform: 'LinkedIn', url: 'https://linkedin.com/in/#', icon: '🔗', order: 1 },
-        { platform: 'Instagram', url: 'https://instagram.com/#', icon: '📸', order: 2 },
-        { platform: 'GitHub', url: 'https://github.com/#', icon: '🐙', order: 3 },
-        { platform: 'Discord', url: '#', icon: '💬', order: 4 },
-        { platform: 'TryHackMe', url: 'https://tryhackme.com/p/#', icon: '🛡️', order: 5 },
-        { platform: 'Email', url: 'mailto:anonymous@example.com', icon: '✉️', order: 6 },
+        { platform: 'LinkedIn', url: 'https://linkedin.com/in/#', icon: '🔗', order: 1, enabled: true },
+        { platform: 'Instagram', url: 'https://instagram.com/#', icon: '📸', order: 2, enabled: true },
+        { platform: 'GitHub', url: 'https://github.com/#', icon: '🐙', order: 3, enabled: true },
+        { platform: 'Discord', url: '#', icon: '💬', order: 4, enabled: true },
+        { platform: 'TryHackMe', url: 'https://tryhackme.com/p/#', icon: '🛡️', order: 5, enabled: true },
+        { platform: 'Email', url: 'mailto:anonymous@example.com', icon: '✉️', order: 6, enabled: true },
       ];
       return defaults;
     }
@@ -243,6 +301,7 @@ export async function createSocialLink(data: any) {
   if (!db) throw new Error('Database offline.');
   await SocialMedia.create(data);
   revalidatePath('/contact');
+  revalidatePath('/');
 }
 
 export async function updateSocialLink(id: string, data: any) {
@@ -251,6 +310,7 @@ export async function updateSocialLink(id: string, data: any) {
   if (!db) throw new Error('Database offline.');
   await SocialMedia.findByIdAndUpdate(id, data, { returnDocument: 'after' });
   revalidatePath('/contact');
+  revalidatePath('/');
 }
 
 export async function deleteSocialLink(id: string) {
@@ -259,6 +319,47 @@ export async function deleteSocialLink(id: string) {
   if (!db) throw new Error('Database offline.');
   await SocialMedia.findByIdAndDelete(id);
   revalidatePath('/contact');
+  revalidatePath('/');
+}
+
+// ─── Visibility Toggle ──────────────────────────────────────────────────────
+
+export async function toggleVisibility(collection: 'projects' | 'certs' | 'blog' | 'social', id: string) {
+  await requireEditorOrAdmin();
+  const db = await dbConnect();
+  if (!db) throw new Error('Database offline.');
+
+  const ModelMap: Record<string, any> = {
+    projects: Project,
+    certs: Certificate,
+    blog: BlogPost,
+    social: SocialMedia,
+  };
+
+  const fieldMap: Record<string, string> = {
+    projects: 'visible',
+    certs: 'visible',
+    blog: 'visible',
+    social: 'enabled',
+  };
+
+  const Model = ModelMap[collection];
+  const field = fieldMap[collection];
+  if (!Model || !field) throw new Error('Invalid collection');
+
+  const doc = await Model.findById(id);
+  if (!doc) throw new Error('Record not found');
+
+  const currentValue = doc[field] !== false; // treat missing as true
+  await Model.findByIdAndUpdate(id, { [field]: !currentValue });
+
+  revalidatePath('/');
+  revalidatePath('/projects');
+  revalidatePath('/certificates');
+  revalidatePath('/blog');
+  revalidatePath('/contact');
+
+  return !currentValue;
 }
 
 // ─── Contact Messages ────────────────────────────────────────────────────────

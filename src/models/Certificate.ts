@@ -6,6 +6,7 @@ const CertificateSchema = new mongoose.Schema({
   date: { type: String },
   verifyUrl: { type: String },
   image: { type: String }, // Base64 string or remote URL
+  visible: { type: Boolean, default: true },
 }, { timestamps: true });
 
 export default mongoose.models.Certificate || mongoose.model('Certificate', CertificateSchema);

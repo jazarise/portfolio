@@ -4,17 +4,19 @@ import { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import {
-  getProjects, createProject, updateProject, deleteProject,
-  getCertificates, createCertificate, updateCertificate, deleteCertificate,
-  getBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost,
-  getSocialLinks, createSocialLink, updateSocialLink, deleteSocialLink,
+  getProjects, getAllProjects, createProject, updateProject, deleteProject,
+  getCertificates, getAllCertificates, createCertificate, updateCertificate, deleteCertificate,
+  getBlogPosts, getAllBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost,
+  getSocialLinks, getAllSocialLinks, createSocialLink, updateSocialLink, deleteSocialLink,
   getContactMessages, deleteContactMessage, markMessageRead,
-  getContentSection, updateContentSection
+  getContentSection, updateContentSection,
+  toggleVisibility
 } from '@/app/actions';
 import MediaUploader from '@/components/MediaUploader';
 import Navbar from '@/components/Navbar';
 import UsersTab from './UsersTab';
 import EmptyState from '@/components/EmptyState';
+import { safeFetch } from '@/lib/safeFetch';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 type TabId = 'overview' | 'projects' | 'certs' | 'blog' | 'social' | 'messages' | 'content' | 'users' | 'settings';
@@ -69,26 +71,40 @@ function ConfirmDialog({ msg, onConfirm, onCancel }: { msg: string; onConfirm: (
 }
 
 // ─── RecordRow ────────────────────────────────────────────────────────────────
-function RecordRow({ title, subtitle, isStatic, onEdit, onDelete }: {
-  title: string; subtitle?: string; isStatic?: boolean; onEdit?: () => void; onDelete?: () => void;
+function RecordRow({ title, subtitle, isStatic, isHidden, onEdit, onDelete, onToggleVisibility }: {
+  title: string; subtitle?: string; isStatic?: boolean; isHidden?: boolean;
+  onEdit?: () => void; onDelete?: () => void; onToggleVisibility?: () => void;
 }) {
   return (
     <div className={`flex items-center gap-4 px-4 py-3 rounded-xl border transition-all group
       ${isStatic
         ? 'bg-[#08080f]/50 border-[rgba(255,255,255,0.04)] opacity-60'
-        : 'bg-[#08080f] border-[rgba(255,255,255,0.05)] hover:border-[rgba(157,0,255,0.25)]'
+        : isHidden
+          ? 'bg-[#08080f]/50 border-[rgba(255,255,255,0.04)] opacity-50'
+          : 'bg-[#08080f] border-[rgba(255,255,255,0.05)] hover:border-[rgba(157,0,255,0.25)]'
       }`}>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <span className="text-white text-sm font-medium truncate">{title}</span>
+          <span className={`text-sm font-medium truncate ${isHidden ? 'text-gray-500 line-through' : 'text-white'}`}>{title}</span>
           {isStatic && <span className="shrink-0 text-[9px] font-mono px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-500">STATIC</span>}
+          {isHidden && <span className="shrink-0 text-[9px] font-mono px-2 py-0.5 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500">HIDDEN</span>}
         </div>
         {subtitle && <div className="text-gray-600 text-xs font-mono truncate mt-0.5">{subtitle}</div>}
       </div>
-      {!isStatic && onEdit && onDelete && (
+      {!isStatic && (
         <div className="flex gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button onClick={onEdit} className="px-3 py-1.5 text-xs font-mono text-purple-400 border border-purple-500/30 rounded-lg hover:bg-purple-500/10 transition-all">Edit</button>
-          <button onClick={onDelete} className="px-3 py-1.5 text-xs font-mono text-red-400 border border-red-500/30 rounded-lg hover:bg-red-500/10 transition-all">Del</button>
+          {onToggleVisibility && (
+            <button onClick={onToggleVisibility} title={isHidden ? 'Show' : 'Hide'}
+              className={`px-2 py-1.5 text-xs font-mono rounded-lg transition-all border
+                ${isHidden
+                  ? 'text-yellow-400 border-yellow-500/30 hover:bg-yellow-500/10'
+                  : 'text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/10'
+                }`}>
+              {isHidden ? '👁' : '👁‍🗨'}
+            </button>
+          )}
+          {onEdit && <button onClick={onEdit} className="px-3 py-1.5 text-xs font-mono text-purple-400 border border-purple-500/30 rounded-lg hover:bg-purple-500/10 transition-all">Edit</button>}
+          {onDelete && <button onClick={onDelete} className="px-3 py-1.5 text-xs font-mono text-red-400 border border-red-500/30 rounded-lg hover:bg-red-500/10 transition-all">Del</button>}
         </div>
       )}
     </div>
@@ -188,7 +204,9 @@ function ContentTab({ showToast }: { showToast: (m: string, t?: 'success' | 'err
               </label>
             </div>
             <MediaInp data={data} setData={setData} label="Resume / CV File (PDF)" k="resumeUrl" type="document" />
-            <div className="grid grid-cols-2 gap-4 mt-2"><Inp data={data} aF={aF} label="Projects Count" k="statProjects" /><Inp data={data} aF={aF} label="Certs Count" k="statCerts" /></div>
+            <div className="px-4 py-3 rounded-xl bg-emerald-950/20 border border-emerald-500/15 text-emerald-400 text-xs font-mono mt-2">
+              ℹ Projects & Certifications counters are now auto-calculated from the database.
+            </div>
             <Inp data={data} aF={aF} label="Platforms (Format: Name,Rank,Color,URL; Name2,Rank2,Color2,URL)" k="platforms" isArea h="h-24" />
             <Inp data={data} aF={aF} label="Skills (Format: Name,Pct; Name2,Pct2)" k="skills" isArea h="h-24" />
           </>)}
@@ -571,8 +589,8 @@ function LoginPage() {
 }
 
 // ─── MAIN DASHBOARD ───────────────────────────────────────────────────────────
-const INACTIVITY_MS = 60 * 1000; // 1 minute idle = logout
-const WARNING_MS = 50 * 1000;   // 50 seconds = warning
+const INACTIVITY_MS = 30 * 60 * 1000; // 30 minutes idle = logout
+const WARNING_MS = 29 * 60 * 1000;    // 29 minutes = warning
 
 export default function DashboardContent({ initialAuthenticated }: { initialAuthenticated?: boolean }) {
   const { data: session, status } = useSession();
@@ -622,6 +640,7 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
   const [msgCount, setMsgCount] = useState(0);
   const [unreadCount, setUnreadCount] = useState(0);
   const [dbOnline, setDbOnline] = useState<boolean | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState<any>({});
@@ -642,7 +661,7 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
   const loadData = useCallback(async () => {
     try {
       const [p, c, b, s, msgs] = await Promise.all([
-        getProjects(), getCertificates(), getBlogPosts(), getSocialLinks(), getContactMessages()
+        getAllProjects(), getAllCertificates(), getAllBlogPosts(), getAllSocialLinks(), getContactMessages()
       ]);
       setProjects(p); setCerts(c); setPosts(b); setSocials(s);
       setMsgCount(msgs.length);
@@ -742,12 +761,10 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
     if (credForm.newPassword !== credForm.confirmPassword) { showToast('Passwords do not match.', 'error'); return; }
     setCredLoading(true);
     try {
-      const res = await fetch('/api/admin/change-credentials', {
+      await safeFetch('/api/admin/change-credentials', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: credForm.newPassword }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
       setCredForm({ username: '', newPassword: '', confirmPassword: '' });
       showToast('✓ Password updated! Signing out...');
       setTimeout(() => signOut(), 2500);
@@ -791,12 +808,38 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
     return [];
   };
 
+
+  // Visibility toggle handler
+  const handleToggleVisibility = async (collection: 'projects' | 'certs' | 'blog' | 'social', id: string) => {
+    try {
+      await toggleVisibility(collection, id);
+      await loadData();
+      showToast('✓ Visibility updated');
+    } catch (err: any) { showToast(err.message, 'error'); }
+  };
+
   // ── Render ───────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen flex bg-[#050509]" style={{ paddingTop: '72px' }}>
+      {/* ── Mobile sidebar toggle button ── */}
+      <button
+        onClick={() => setSidebarOpen(true)}
+        className="md:hidden fixed bottom-6 left-6 z-50 w-12 h-12 rounded-xl bg-purple-950/80 border border-purple-500/40 backdrop-blur-xl flex items-center justify-center text-purple-300 shadow-[0_0_20px_rgba(157,0,255,0.3)] hover:scale-105 transition-transform"
+        aria-label="Open dashboard menu"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+      </button>
+
+      {/* ── Mobile sidebar backdrop ── */}
+      {sidebarOpen && (
+        <div className="md:hidden fixed inset-0 z-40 bg-black/70 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
+      )}
+
       {/* ── SIDEBAR ──────────────────────────────────────────────── */}
-      <aside className="hidden md:flex flex-col w-[230px] shrink-0 sticky top-[72px] h-[calc(100vh-72px)]
-        border-r border-[rgba(157,0,255,0.08)] bg-[#070710] overflow-y-auto">
+      <aside className={`${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      } md:translate-x-0 fixed md:sticky top-[72px] left-0 z-50 md:z-auto flex flex-col w-[230px] shrink-0 h-[calc(100vh-72px)]
+        border-r border-[rgba(157,0,255,0.08)] bg-[#070710] overflow-y-auto transition-transform duration-300 md:transition-none`}>
 
         {/* Admin info */}
         <div className="p-5 border-b border-[rgba(157,0,255,0.08)]">
@@ -821,7 +864,7 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
         {/* Nav */}
         <nav className="flex-1 p-3 space-y-0.5">
           {TABS.map(tab => (
-            <button key={tab.id} onClick={() => { setActiveTab(tab.id); setShowForm(false); setEditId(null); setFormData({}); }}
+            <button key={tab.id} onClick={() => { setActiveTab(tab.id); setShowForm(false); setEditId(null); setFormData({}); setSidebarOpen(false); }}
               className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-mono transition-all duration-150
                 ${activeTab === tab.id
                   ? 'bg-purple-950/40 text-purple-300 border border-purple-500/20 shadow-[0_0_12px_rgba(157,0,255,0.08)]'
@@ -1085,14 +1128,20 @@ export default function DashboardContent({ initialAuthenticated }: { initialAuth
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />Database Records
                       </div>
                     )}
-                    {getListData().filter((r: any) => !r._static).map((rec: any) => (
-                      <RecordRow key={rec._id}
-                        title={rec.title || rec.platform || 'Untitled'}
-                        subtitle={rec.issuer || rec.excerpt || rec.url || rec.category || rec.tags?.join(', ')}
-                        onEdit={() => handleEdit(rec)}
-                        onDelete={() => handleDelete(activeTab, rec._id, rec.title || rec.platform)}
-                      />
-                    ))}
+                    {getListData().filter((r: any) => !r._static).map((rec: any) => {
+                      const isHidden = activeTab === 'social' ? rec.enabled === false : rec.visible === false;
+                      const collection = activeTab === 'projects' ? 'projects' : activeTab === 'certs' ? 'certs' : activeTab === 'blog' ? 'blog' : 'social';
+                      return (
+                        <RecordRow key={rec._id}
+                          title={rec.title || rec.platform || 'Untitled'}
+                          subtitle={rec.issuer || rec.excerpt || rec.url || rec.category || rec.tags?.join(', ')}
+                          isHidden={isHidden}
+                          onToggleVisibility={() => handleToggleVisibility(collection as any, rec._id)}
+                          onEdit={() => handleEdit(rec)}
+                          onDelete={() => handleDelete(activeTab, rec._id, rec.title || rec.platform)}
+                        />
+                      );
+                    })}
                     {/* Static records */}
                     {getListData().some((r: any) => r._static) && (
                       <>

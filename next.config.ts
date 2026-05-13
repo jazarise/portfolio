@@ -8,9 +8,17 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
     ],
   },
 };
 
 export default nextConfig;
-

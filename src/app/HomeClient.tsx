@@ -64,7 +64,7 @@ function useTypingAnimation(text: string, speed = 60) {
   return { displayedText, done };
 }
 
-export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
+export default function HomeClient({ cfg: previewCfg, projectCount = 0, certCount = 0 }: { cfg?: any; projectCount?: number; certCount?: number }) {
   const { homeCfg = {} } = useGlobal() || {};
   const cfg = previewCfg || homeCfg || {};
 
@@ -97,12 +97,12 @@ export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
   return (
     <div className="relative min-h-screen">
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[100svh] flex items-center pt-24 pb-16 px-6 overflow-hidden">
-        {/* Glows — reduced intensity */}
-        <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-neon-purple/10 rounded-full blur-[120px] -z-10 mix-blend-screen" />
-        <div className="absolute bottom-1/4 -left-40 w-96 h-96 bg-neon-cyan/5 rounded-full blur-[100px] -z-10 mix-blend-screen" />
+      <section className="relative min-h-[100svh] flex items-center pt-24 pb-16 px-4 md:px-6 overflow-hidden">
+        {/* Glows — reduced on mobile for performance */}
+        <div className="absolute top-1/3 -right-40 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-neon-purple/10 rounded-full blur-[120px] -z-10 mix-blend-screen" />
+        <div className="hidden md:block absolute bottom-1/4 -left-40 w-96 h-96 bg-neon-cyan/5 rounded-full blur-[100px] -z-10 mix-blend-screen" />
 
-        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-14 items-center">
+        <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
           {/* LEFT */}
           <div className="flex flex-col gap-6 relative z-10">
             <Reveal>
@@ -118,7 +118,7 @@ export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <h1 className="text-6xl md:text-8xl font-bold font-display leading-[1.05] tracking-tighter">
+              <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold font-display leading-[1.05] tracking-tighter">
                 {smartPlaceholder(cfg.heading, 'Jaishanth M').split(' ')[0]}{' '}
                 <span className="neon-text neon-text-glow">{smartPlaceholder(cfg.heading, 'Jaishanth M').split(' ').slice(1).join(' ')}.</span>
               </h1>
@@ -134,7 +134,7 @@ export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
             </Reveal>
 
             <Reveal delay={0.25}>
-              <div className="flex flex-wrap gap-2">
+              <div className="hidden md:flex flex-wrap gap-2">
                 {['VAPT', 'Threat Analysis', 'Penetration Testing', 'Reconnaissance', 'Exploitation', 'Network Security'].map(tag => (
                   <span key={tag} className="px-2.5 py-1 rounded-md bg-white/4 border border-white/6 text-gray-500 font-mono text-[10px] tracking-wider">
                     {tag}
@@ -144,7 +144,7 @@ export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
             </Reveal>
 
             <Reveal delay={0.3}>
-              <p className="text-lg text-gray-400 max-w-xl leading-relaxed">{smartPlaceholder(cfg.bio)}</p>
+              <p className="text-base md:text-lg text-gray-400 max-w-xl leading-relaxed">{smartPlaceholder(cfg.bio)}</p>
             </Reveal>
 
             <Reveal delay={0.4}>
@@ -164,15 +164,15 @@ export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
 
             {/* Stats */}
             <Reveal delay={0.5}>
-              <div className="flex flex-wrap gap-10 mt-10 pt-8 border-t border-dark-border/40 relative">
+              <div className="flex flex-wrap gap-6 md:gap-10 mt-8 md:mt-10 pt-6 md:pt-8 border-t border-dark-border/40 relative">
                 <div className="absolute top-0 left-0 w-24 h-px bg-gradient-to-r from-neon-purple to-transparent" />
                 {[
-                  { val: cfg.statProjects || '15+', label: 'Projects', color: 'text-neon-purple' },
-                  { val: cfg.statCerts || '6',    label: 'Certifications', color: 'text-neon-cyan' },
-                  ...(platformsToUse.length > 0 ? [{ val: platformsToUse[0].rank, label: platformsToUse[0].name, color: 'text-neon-pink' }] : [])
+                  { val: projectCount > 0 ? `${projectCount}+` : (cfg.statProjects || '0'), label: 'Projects', color: 'text-neon-purple' },
+                  { val: certCount > 0 ? `${certCount}` : (cfg.statCerts || '0'), label: 'Certifications', color: 'text-neon-cyan' },
+                  ...(platformsToUse.length > 0 ? [{ val: platformsToUse[0].rank, label: platformsToUse[0].name, color: 'text-neon-pink hidden md:block' }] : [])
                 ].map(s => (
                   <div key={s.label}>
-                    <div className={`text-4xl font-display font-bold text-white mb-1 ${s.color} drop-shadow-[0_0_6px_currentColor]`}>{s.val}</div>
+                    <div className={`text-3xl md:text-4xl font-display font-bold text-white mb-1 ${s.color} drop-shadow-[0_0_6px_currentColor]`}>{s.val}</div>
                     <div className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">{s.label}</div>
                   </div>
                 ))}
@@ -180,8 +180,8 @@ export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
             </Reveal>
           </div>
 
-          {/* RIGHT — Terminal with typing animation */}
-          <Reveal delay={0.3} className="relative z-10">
+          {/* RIGHT — Terminal with typing animation (hidden on mobile) */}
+          <Reveal delay={0.3} className="relative z-10 hidden lg:block">
             <div className="glass-panel p-1 w-full relative group animate-[float_6s_ease-in-out_infinite]">
               <div className="absolute inset-0 bg-gradient-to-br from-neon-purple/5 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-700 rounded-xl" />
               <div className="bg-[#040408]/95 rounded-xl overflow-hidden border border-white/4 relative z-10">
@@ -284,10 +284,10 @@ export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
               </Reveal>
             ))}
 
-            {/* Decorative System Status Panel to fill empty space */}
+            {/* Decorative System Status Panel — hidden on mobile for performance */}
             <Reveal delay={0.3}>
-              <div className="mt-8 relative rounded-xl border border-neon-cyan/20 bg-[#040408]/60 backdrop-blur-sm overflow-hidden p-6 group">
-                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
+              <div className="hidden md:block mt-8 relative rounded-xl border border-neon-cyan/20 bg-[#040408]/60 backdrop-blur-sm overflow-hidden p-6 group">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[length:4px_4px] mix-blend-overlay"></div>
                 <div className="absolute top-0 right-0 w-32 h-32 bg-neon-cyan/10 blur-3xl -z-10 group-hover:bg-neon-cyan/20 transition-all duration-700"></div>
                 
                 <div className="flex items-center justify-between mb-6">
@@ -343,7 +343,7 @@ export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
 
             <Reveal delay={0.3}>
               <div className="text-xs font-mono text-gray-500 tracking-widest mb-4 uppercase">// Tactical Tools</div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 {TOOLS.map((t) => (
                   <div key={t.name} className="flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl bg-gradient-to-b from-white/5 to-white/[0.02] border border-white/10 hover:border-[var(--tool-color)] hover:bg-white/[0.03] hover:-translate-y-1 transition-all duration-300 group" style={{ '--tool-color': t.color + '55' } as React.CSSProperties}>
                     <t.icon className="w-6 h-6 text-gray-500 transition-colors duration-300" style={{ color: 'var(--icon-color, #6b7280)' }} 
@@ -366,7 +366,7 @@ export default function HomeClient({ cfg: previewCfg }: { cfg?: any }) {
       {/* ── CTA BANNER ────────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 pb-24">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-neon-purple/20 bg-gradient-to-br from-neon-purple/8 via-transparent to-neon-cyan/5 p-10 md:p-14 text-center">
+          <div className="relative overflow-hidden rounded-2xl md:rounded-3xl border border-neon-purple/20 bg-gradient-to-br from-neon-purple/8 via-transparent to-neon-cyan/5 p-6 md:p-14 text-center">
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-purple/60 to-transparent" />
             <div className="absolute -top-20 -right-20 w-64 h-64 bg-neon-purple/10 rounded-full blur-[80px] -z-10" />
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">

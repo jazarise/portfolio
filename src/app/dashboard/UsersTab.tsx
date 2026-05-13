@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { safeFetch } from '@/lib/safeFetch';
 
 const inputCls = `w-full bg-[#060610] border border-[rgba(157,0,255,0.2)] rounded-lg px-4 py-3
   text-white text-sm placeholder:text-gray-600 focus:outline-none
@@ -18,10 +19,8 @@ export default function UsersTab({ showToast, currentUserId }: { showToast: (m: 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/users');
-      if (!res.ok) throw new Error('Failed to load users');
-      const data = await res.json();
-      setUsers(data);
+      const data = await safeFetch('/api/admin/users');
+      setUsers(Array.isArray(data) ? data : []);
     } catch (err: any) {
       showToast(err.message, 'error');
     } finally {
@@ -44,13 +43,11 @@ export default function UsersTab({ showToast, currentUserId }: { showToast: (m: 
       }
 
       const body = editId ? { id: editId, ...sanitized } : sanitized;
-      const res = await fetch('/api/admin/users', {
+      await safeFetch('/api/admin/users', {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed');
       showToast(`✓ User ${editId ? 'updated' : 'created'}`);
       setShowForm(false);
       setEditId(null);
@@ -66,13 +63,11 @@ export default function UsersTab({ showToast, currentUserId }: { showToast: (m: 
   const handleDelete = async (id: string, name: string) => {
     if (!confirm(`Delete user ${name}?`)) return;
     try {
-      const res = await fetch('/api/admin/users', {
+      await safeFetch('/api/admin/users', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to delete');
       showToast('✓ User deleted');
       await load();
     } catch (err: any) {

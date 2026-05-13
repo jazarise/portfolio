@@ -8,6 +8,7 @@ const BlogPostSchema = new mongoose.Schema({
   coverImage: { type: String }, // Base64 string or remote URL
   videoUrl: { type: String },
   tags: [String],
+  visible: { type: Boolean, default: true },
 }, { timestamps: true });
 
 export default mongoose.models.BlogPost || mongoose.model('BlogPost', BlogPostSchema);

@@ -14,6 +14,7 @@ const ProjectSchema = new mongoose.Schema({
   imageUrl: { type: String },
   videoUrl: { type: String },
   featured: { type: Boolean, default: false },
+  visible: { type: Boolean, default: true },
 }, { timestamps: true });
 
 export default mongoose.models.Project || mongoose.model('Project', ProjectSchema);
