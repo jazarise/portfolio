@@ -12,6 +12,14 @@ export async function proxy(req: NextRequest) {
 
   // Redirect unauthenticated users trying to access protected paths
   if ((isAdminRoute || isAdminApi) && !token) {
+    // API routes: return JSON 401 (never redirect APIs to HTML pages)
+    if (isAdminApi) {
+      return new NextResponse(JSON.stringify({ error: 'Unauthorized: Please sign in' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     // If they are hitting the dashboard root, just let it render (it acts as login page)
     if (req.nextUrl.pathname === '/dashboard') {
       return NextResponse.next();

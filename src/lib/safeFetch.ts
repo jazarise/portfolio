@@ -9,7 +9,10 @@ export async function safeFetch<T = any>(
   let res: Response;
 
   try {
-    res = await fetch(url, options);
+    res = await fetch(url, {
+      credentials: 'include',
+      ...options,
+    });
   } catch (err: any) {
     throw new Error(`Network error: ${err.message || 'Failed to connect to server'}`);
   }
