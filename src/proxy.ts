@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 export async function proxy(req: NextRequest) {
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'ant-portfolio-secret-key-fallback-2026',
-  });
+  const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'ant-portfolio-secret-key-fallback-2026';
+
+  const token = await getToken({ req, secret });
 
   const isAdminRoute = req.nextUrl.pathname.startsWith('/dashboard');
   const isAdminApi = req.nextUrl.pathname.startsWith('/api/admin');

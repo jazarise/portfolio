@@ -5,6 +5,12 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 
 export async function GET(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  const role = (session?.user as any)?.role;
+  if (role !== 'ADMIN') {
+    return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
+  }
+
   const { searchParams } = new URL(req.url);
   const input = searchParams.get('url') || searchParams.get('username') || 'jaishanth';
 
@@ -20,8 +26,12 @@ export async function POST(req: NextRequest) {
   try {
     // Authenticate Admin or Editor session
     const session = await getServerSession(authOptions);
+    const role = (session?.user as any)?.role;
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized: Sign in required' }, { status: 401 });
+    }
+    if (role !== 'ADMIN') {
+      return NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
     }
 
     const body = await req.json();

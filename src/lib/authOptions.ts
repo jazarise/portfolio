@@ -4,6 +4,12 @@ import bcrypt from 'bcryptjs';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
 
+const AUTH_SECRET = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'ant-portfolio-secret-key-fallback-2026';
+
+if (process.env.NODE_ENV === 'production' && !process.env.NEXTAUTH_SECRET && !process.env.AUTH_SECRET) {
+  console.warn('⚠️ [AUTH] NEXTAUTH_SECRET is not set in environment variables. Using secure fallback for deployment build.');
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -85,7 +91,7 @@ export const authOptions: NextAuthOptions = {
     error: '/dashboard',
   },
 
-  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'ant-portfolio-secret-key-fallback-2026',
+  secret: AUTH_SECRET,
 
   debug: false,
 };

@@ -7,11 +7,22 @@ import { authOptions } from '@/lib/authOptions';
 import { v2 as cloudinary } from 'cloudinary';
 
 const ALLOWED_TYPES = [
-  'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml',
+  'image/jpeg', 'image/png', 'image/webp', 'image/gif',
   'video/mp4', 'video/webm', 'video/ogg',
   'application/pdf',
 ];
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+const EXTENSIONS: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+  'image/gif': 'gif',
+  'video/mp4': 'mp4',
+  'video/webm': 'webm',
+  'video/ogg': 'ogv',
+  'application/pdf': 'pdf',
+};
 
 // Configure Cloudinary if env vars are present
 const useCloudinary = !!(
@@ -132,9 +143,11 @@ export async function POST(req: NextRequest) {
     } else {
       // ═══ LOCAL DISK (Development only) ═══
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-      const ext = file.name.split('.').pop() || 'bin';
-      const sanitizedExt = ext.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10);
-      const filename = `${uniqueSuffix}.${sanitizedExt}`;
+      const ext = EXTENSIONS[file.type];
+      if (!ext) {
+        return jsonResponse({ success: false, error: 'Unsupported file type' }, 400);
+      }
+      const filename = `${uniqueSuffix}.${ext}`;
 
       const uploadDir = join(process.cwd(), 'public', 'uploads');
       try {

@@ -82,36 +82,38 @@ export default function BlogContent({ dbPosts = [], cfg = {} }: { dbPosts?: any[
           <div className="flex flex-col gap-6">
             {allPosts.map((post, i) => (
               <Reveal key={post.id} delay={i * 0.1}>
-                <GlassCard className="p-8 group cursor-pointer hover:border-neon-purple/50 transition-all">
-                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
-                    <h3 className="font-display text-xl md:text-2xl font-bold text-white group-hover:text-neon-pink transition-colors leading-snug cursor-pointer">
-                      {post.title}
-                    </h3>
-                    <div className="text-neon-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap hidden md:block shrink-0 mt-1 cursor-pointer">
-                      Read Article →
+                <a href={`/blog/${encodeURIComponent(post.slug || post.id)}`} className="block">
+                  <GlassCard className="p-8 group hover:border-neon-purple/50 transition-all">
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+                      <h3 className="font-display text-xl md:text-2xl font-bold text-white group-hover:text-neon-pink transition-colors leading-snug">
+                        {post.title}
+                      </h3>
+                      <div className="text-neon-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap hidden md:block shrink-0 mt-1">
+                        Read Article →
+                      </div>
                     </div>
-                  </div>
 
-                  <BlogMedia src={post.coverImage} videoUrl={post.videoUrl} />
+                    <BlogMedia src={post.coverImage} videoUrl={post.videoUrl} />
 
-                  {post.excerpt && (
-                    <p className="text-gray-400 leading-relaxed mb-6 max-w-4xl">{post.excerpt}</p>
-                  )}
-
-                  <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-gray-500">
-                    <span>{post.date}</span>
-                    {post.tags.length > 0 && (
-                      <>
-                        <span className="w-1 h-1 rounded-full bg-dark-border" />
-                        <div className="flex gap-2 flex-wrap">
-                          {post.tags.map((tag: string) => (
-                            <span key={tag} className="text-neon-purple">{tag}</span>
-                          ))}
-                        </div>
-                      </>
+                    {post.excerpt && (
+                      <p className="text-gray-400 leading-relaxed mb-6 max-w-4xl">{post.excerpt}</p>
                     )}
-                  </div>
-                </GlassCard>
+
+                    <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-gray-500">
+                      <span>{post.date}</span>
+                      {post.tags.length > 0 && (
+                        <>
+                          <span className="w-1 h-1 rounded-full bg-dark-border" />
+                          <div className="flex gap-2 flex-wrap">
+                            {post.tags.map((tag: string) => (
+                              <span key={tag} className="text-neon-purple">{tag}</span>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </GlassCard>
+                </a>
               </Reveal>
             ))}
           </div>

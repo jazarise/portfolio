@@ -151,6 +151,7 @@ export async function getProjects() {
 
 /** Admin: all projects including hidden */
 export async function getAllProjects() {
+  await requireEditorOrAdmin();
   try {
     const db = await dbConnect();
     if (!db) return [];
@@ -200,6 +201,7 @@ export async function getCertificates() {
 
 /** Admin: all certificates including hidden */
 export async function getAllCertificates() {
+  await requireEditorOrAdmin();
   try {
     const db = await dbConnect();
     if (!db) return [];
@@ -249,6 +251,7 @@ export async function getBlogPosts() {
 
 /** Admin: all posts including hidden */
 export async function getAllBlogPosts() {
+  await requireEditorOrAdmin();
   try {
     const db = await dbConnect();
     if (!db) return [];
@@ -312,6 +315,7 @@ export async function getSocialLinks() {
 
 /** Admin: all social links including disabled */
 export async function getAllSocialLinks() {
+  await requireEditorOrAdmin();
   try {
     const db = await dbConnect();
     if (!db) return [];
@@ -401,6 +405,7 @@ export async function toggleVisibility(collection: 'projects' | 'certs' | 'blog'
 // ─── Contact Messages ────────────────────────────────────────────────────────
 
 export async function getContactMessages() {
+  await requireEditorOrAdmin();
   try {
     const db = await dbConnect();
     if (!db) return [];
@@ -422,3 +427,16 @@ export async function markMessageRead(id: string) {
   if (!db) throw new Error('Database offline.');
   await Contact.findByIdAndUpdate(id, { read: true });
 }
+
+/** Public: get single blog post by slug */
+export async function getBlogPostBySlug(slug: string) {
+  try {
+    const db = await dbConnect();
+    if (!db) return null;
+    const doc = await BlogPost.findOne({ slug, visible: { $ne: false } }).lean();
+    return doc ? JSON.parse(JSON.stringify(doc)) : null;
+  } catch {
+    return null;
+  }
+}
+
