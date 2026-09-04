@@ -3,6 +3,19 @@ import { getGithubStats } from '@/lib/githubStats';
 import HomeClient from './HomeClient';
 import { headers } from 'next/headers';
 
+function getBaseUrl(host?: string | null, protocol: string = 'https'): string {
+  let domain = (host ? `${protocol}://${host}` : '') ||
+               process.env.NEXT_PUBLIC_SITE_URL ||
+               (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '') ||
+               (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '') ||
+               'https://portfolio-v2-fixed.vercel.app';
+  domain = domain.trim();
+  if (!domain.startsWith('http://') && !domain.startsWith('https://')) {
+    domain = `https://${domain}`;
+  }
+  return domain.replace(/\/+$/, '');
+}
+
 export default async function HomePage() {
   const [cfg, projects, certs] = await Promise.all([
     getContentSection('home'),
@@ -15,11 +28,7 @@ export default async function HomePage() {
   const headersList = await headers();
   const host = headersList.get('x-forwarded-host') || headersList.get('host');
   const protocol = headersList.get('x-forwarded-proto') || 'https';
-  let rawBaseUrl = (host ? `${protocol}://${host}` : '') || process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || 'https://localhost:3000';
-  if (rawBaseUrl && !rawBaseUrl.startsWith('http://') && !rawBaseUrl.startsWith('https://')) {
-    rawBaseUrl = `https://${rawBaseUrl}`;
-  }
-  const baseUrl = rawBaseUrl.replace(/\/+$/, '');
+  const baseUrl = getBaseUrl(host, protocol);
 
   const jsonLdSchemas = [
     {
