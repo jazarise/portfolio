@@ -6,10 +6,18 @@ import ScrollProgress from '@/components/ScrollProgress';
 import ClientProviders from '@/components/ClientProviders';
 import { getContentSection, getSocialLinks } from '@/app/actions';
 import { GlobalStateProvider } from '@/lib/GlobalState';
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+import { headers } from 'next/headers';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const headersList = await headers();
+  const host = headersList.get('x-forwarded-host') || headersList.get('host');
+  const protocol = headersList.get('x-forwarded-proto') || 'https';
+  let rawBaseUrl = (host ? `${protocol}://${host}` : '') || process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || 'https://localhost:3000';
+  if (rawBaseUrl && !rawBaseUrl.startsWith('http://') && !rawBaseUrl.startsWith('https://')) {
+    rawBaseUrl = `https://${rawBaseUrl}`;
+  }
+  const baseUrl = rawBaseUrl.replace(/\/+$/, '');
+
   const defaultTitle = 'Jaishanth | Cybersecurity Student | Ethical Hacker & Red Teaming';
   const defaultDesc = 'Jaishanth is a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET Pollachi) focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.';
 

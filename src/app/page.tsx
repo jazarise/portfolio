@@ -1,6 +1,7 @@
 import { getContentSection, getProjects, getCertificates } from '@/app/actions';
 import { getGithubStats } from '@/lib/githubStats';
 import HomeClient from './HomeClient';
+import { headers } from 'next/headers';
 
 export default async function HomePage() {
   const [cfg, projects, certs] = await Promise.all([
@@ -10,7 +11,15 @@ export default async function HomePage() {
   ]);
 
   const githubStats = await getGithubStats(cfg.githubUsername);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+
+  const headersList = await headers();
+  const host = headersList.get('x-forwarded-host') || headersList.get('host');
+  const protocol = headersList.get('x-forwarded-proto') || 'https';
+  let rawBaseUrl = (host ? `${protocol}://${host}` : '') || process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || 'https://localhost:3000';
+  if (rawBaseUrl && !rawBaseUrl.startsWith('http://') && !rawBaseUrl.startsWith('https://')) {
+    rawBaseUrl = `https://${rawBaseUrl}`;
+  }
+  const baseUrl = rawBaseUrl.replace(/\/+$/, '');
 
   const jsonLdSchemas = [
     {
