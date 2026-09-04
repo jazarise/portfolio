@@ -56,7 +56,7 @@ export default async function HomePage() {
         'https://github.com/jaishanthm',
         'https://linkedin.com/in/jaishanth',
         'https://tryhackme.com/p/jaishanth',
-        'https://discord.com/users/jaishanth'
+        'https://discord.com/users/jaishanthm'
       ]
     },
     {

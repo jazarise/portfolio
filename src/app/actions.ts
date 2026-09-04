@@ -24,7 +24,7 @@ const DEFAULT_CONTENT: Record<string, any> = {
     availableForWork: true,
     location: 'MCET, Pollachi, Tamil Nadu, India',
     email: 'jaishanthcys@gmail.com',
-    platforms: 'TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth; LinkedIn,Jaishanth,#0077b5,https://linkedin.com/in/jaishanth; GitHub,jaishanthm,#333,https://github.com/jaishanthm; Instagram,jaishanthh,#e1306c,https://instagram.com/jaishanthh; Discord,jaishanth,#5865F2,https://discord.com/users/jaishanth',
+    platforms: 'TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth; LinkedIn,Jaishanth,#0077b5,https://linkedin.com/in/jaishanth; GitHub,jaishanthm,#333,https://github.com/jaishanthm; Instagram,jaishanthh,#e1306c,https://instagram.com/jaishanthh; Discord,jaishanthm,#5865F2,https://discord.com/users/jaishanthm',
     skills: 'Penetration Testing,85;Network Security,80;VAPT & Threat Analysis,78;Python/Automation,90;Web App Security,82;Linux & Active Directory,85',
   },
   about: {
@@ -98,6 +98,8 @@ export async function updateContentSection(sectionId: string, data: any) {
   revalidatePath('/about');
   revalidatePath('/projects');
   revalidatePath('/certificates');
+  revalidatePath('/blog');
+  revalidatePath('/contact');
 }
 
 export async function crawlAndUpdateTHMAction(profileUrl: string) {
@@ -303,7 +305,7 @@ export async function getSocialLinks() {
         { platform: 'LinkedIn', url: 'https://linkedin.com/in/jaishanth', icon: '🔗', order: 1, enabled: true },
         { platform: 'Instagram', url: 'https://instagram.com/jaishanthh', icon: '📸', order: 2, enabled: true },
         { platform: 'GitHub', url: 'https://github.com/jaishanthm', icon: '🐙', order: 3, enabled: true },
-        { platform: 'Discord', url: 'https://discord.com/users/jaishanth', icon: '💬', order: 4, enabled: true },
+        { platform: 'Discord', url: 'https://discord.com/users/jaishanthm', icon: '💬', order: 4, enabled: true },
         { platform: 'TryHackMe', url: 'https://tryhackme.com/p/jaishanth', icon: '🛡️', order: 5, enabled: true },
         { platform: 'Email', url: 'mailto:jaishanthcys@gmail.com', icon: '✉️', order: 6, enabled: true },
       ];
@@ -325,7 +327,7 @@ export async function getAllSocialLinks() {
         { platform: 'LinkedIn', url: 'https://linkedin.com/in/jaishanth', icon: '🔗', order: 1, enabled: true },
         { platform: 'Instagram', url: 'https://instagram.com/jaishanthh', icon: '📸', order: 2, enabled: true },
         { platform: 'GitHub', url: 'https://github.com/jaishanthm', icon: '🐙', order: 3, enabled: true },
-        { platform: 'Discord', url: 'https://discord.com/users/jaishanth', icon: '💬', order: 4, enabled: true },
+        { platform: 'Discord', url: 'https://discord.com/users/jaishanthm', icon: '💬', order: 4, enabled: true },
         { platform: 'TryHackMe', url: 'https://tryhackme.com/p/jaishanth', icon: '🛡️', order: 5, enabled: true },
         { platform: 'Email', url: 'mailto:jaishanthcys@gmail.com', icon: '✉️', order: 6, enabled: true },
       ];

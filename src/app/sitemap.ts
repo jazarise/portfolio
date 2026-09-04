@@ -27,7 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     'https://github.com/jaishanthm',
     'https://instagram.com/jaishanthh',
     'https://tryhackme.com/p/jaishanth',
-    'https://discord.com/users/jaishanth',
+    'https://discord.com/users/jaishanthm',
   ].map((url) => ({
     url,
     lastModified: new Date().toISOString(),
