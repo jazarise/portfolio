@@ -8,35 +8,12 @@ import SocialMedia from '@/models/SocialMedia';
 import Contact from '@/models/Contact';
 import ContentSection from '@/models/ContentSection';
 import { revalidatePath } from 'next/cache';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/authOptions';
 import { crawlTryHackMe, extractTHMUsername } from '@/lib/thmCrawler';
-
-// ─── Security Helpers ────────────────────────────────────────────────────────
-
-async function requireEditorOrAdmin() {
-  const session = await getServerSession(authOptions);
-  if (!session) throw new Error('Unauthorized');
-  const role = (session.user as any)?.role;
-  if (!role) {
-    console.error('[RBAC] Role missing from session.user:', JSON.stringify(session, null, 2));
-    throw new Error('Role missing in session. Please sign out and sign in again.');
-  }
-  if (role !== 'ADMIN' && role !== 'EDITOR') throw new Error('Forbidden: Editor or Admin access required');
-}
-
-async function requireAdmin() {
-  const session = await getServerSession(authOptions);
-  if (!session) throw new Error('Unauthorized');
-  const role = (session.user as any)?.role;
-  if (!role) {
-    console.error('[RBAC] Role missing from session.user:', JSON.stringify(session, null, 2));
-    throw new Error('Role missing in session. Please sign out and sign in again.');
-  }
-  if (role !== 'ADMIN') throw new Error('Forbidden: Admin access required');
-}
+import { requireAdmin, requireEditorOrAdmin } from '@/lib/security';
 
 // ─── Content Sections ────────────────────────────────────────────────────────
+
+const PUBLIC_SECTIONS = new Set(['home', 'about', 'projects', 'certs', 'blog', 'contact', 'navbar', 'footer', 'profile']);
 
 const DEFAULT_CONTENT: Record<string, any> = {
   home: {
@@ -74,7 +51,11 @@ const DEFAULT_CONTENT: Record<string, any> = {
   }
 };
 
-export async function getContentSection(sectionId: string) {
+/** Public: get content section with strict sectionId allowlist */
+export async function getPublicContentSection(sectionId: string) {
+  if (!PUBLIC_SECTIONS.has(sectionId)) {
+    throw new Error('Forbidden: Invalid or non-public content section');
+  }
   try {
     const db = await dbConnect();
     if (!db) return DEFAULT_CONTENT[sectionId] || {};
@@ -83,6 +64,24 @@ export async function getContentSection(sectionId: string) {
   } catch {
     return DEFAULT_CONTENT[sectionId] || {};
   }
+}
+
+/** Admin: get any content section */
+export async function getAdminContentSection(sectionId: string) {
+  await requireEditorOrAdmin();
+  try {
+    const db = await dbConnect();
+    if (!db) return DEFAULT_CONTENT[sectionId] || {};
+    const doc = await ContentSection.findOne({ sectionId }).lean();
+    return doc ? JSON.parse(JSON.stringify((doc as any).data)) : DEFAULT_CONTENT[sectionId] || {};
+  } catch {
+    return DEFAULT_CONTENT[sectionId] || {};
+  }
+}
+
+/** Public content section reader */
+export async function getContentSection(sectionId: string) {
+  return getPublicContentSection(sectionId);
 }
 
 export async function updateContentSection(sectionId: string, data: any) {

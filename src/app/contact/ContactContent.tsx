@@ -142,49 +142,62 @@ export default function ContactContent({ cfg, homeCfg, socialLinks = [] }: { cfg
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                  {/* Honeypot field for bot trap */}
+                  <div className="hidden" aria-hidden="true">
+                    <input type="text" name="website" tabIndex={-1} autoComplete="off" onChange={set('website' as any)} />
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                      <label className="block font-mono text-[10px] text-gray-500 tracking-[0.15em] mb-2 uppercase">Name <span className="text-red-400">*</span></label>
+                      <label htmlFor="contact-name" className="block font-mono text-[10px] text-gray-500 tracking-[0.15em] mb-2 uppercase">Name <span className="text-red-400">*</span></label>
                       <input
+                        id="contact-name"
                         type="text" value={form.name} onChange={set('name')} onBlur={markTouched('name')}
                         placeholder="Your name"
-                        aria-label="Your name"
+                        aria-invalid={!!(touched.name && errors.name)}
+                        aria-describedby={touched.name && errors.name ? 'contact-name-error' : undefined}
                         className={`${inputBase} ${getFieldClass('name')}`}
                       />
-                      {touched.name && errors.name && <p className="text-red-400 text-xs font-mono mt-1">{errors.name}</p>}
+                      {touched.name && errors.name && <p id="contact-name-error" className="text-red-400 text-xs font-mono mt-1">{errors.name}</p>}
                     </div>
                     <div>
-                      <label className="block font-mono text-[10px] text-gray-500 tracking-[0.15em] mb-2 uppercase">Email <span className="text-red-400">*</span></label>
+                      <label htmlFor="contact-email" className="block font-mono text-[10px] text-gray-500 tracking-[0.15em] mb-2 uppercase">Email <span className="text-red-400">*</span></label>
                       <input
+                        id="contact-email"
                         type="email" value={form.email} onChange={set('email')} onBlur={markTouched('email')}
                         placeholder="you@example.com"
-                        aria-label="Your email address"
+                        aria-invalid={!!(touched.email && errors.email)}
+                        aria-describedby={touched.email && errors.email ? 'contact-email-error' : undefined}
                         className={`${inputBase} ${getFieldClass('email')}`}
                       />
-                      {touched.email && errors.email && <p className="text-red-400 text-xs font-mono mt-1">{errors.email}</p>}
+                      {touched.email && errors.email && <p id="contact-email-error" className="text-red-400 text-xs font-mono mt-1">{errors.email}</p>}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block font-mono text-[10px] text-gray-500 tracking-[0.15em] mb-2 uppercase">Subject <span className="text-red-400">*</span></label>
+                    <label htmlFor="contact-subject" className="block font-mono text-[10px] text-gray-500 tracking-[0.15em] mb-2 uppercase">Subject <span className="text-red-400">*</span></label>
                     <input
+                      id="contact-subject"
                       type="text" value={form.subject} onChange={set('subject')} onBlur={markTouched('subject')}
                       placeholder="Internship / Collaboration / Bug Report..."
-                      aria-label="Message subject"
+                      aria-invalid={!!(touched.subject && errors.subject)}
+                      aria-describedby={touched.subject && errors.subject ? 'contact-subject-error' : undefined}
                       className={`${inputBase} ${getFieldClass('subject')}`}
                     />
-                    {touched.subject && errors.subject && <p className="text-red-400 text-xs font-mono mt-1">{errors.subject}</p>}
+                    {touched.subject && errors.subject && <p id="contact-subject-error" className="text-red-400 text-xs font-mono mt-1">{errors.subject}</p>}
                   </div>
 
                   <div>
-                    <label className="block font-mono text-[10px] text-gray-500 tracking-[0.15em] mb-2 uppercase">Message <span className="text-red-400">*</span></label>
+                    <label htmlFor="contact-message" className="block font-mono text-[10px] text-gray-500 tracking-[0.15em] mb-2 uppercase">Message <span className="text-red-400">*</span></label>
                     <textarea
+                      id="contact-message"
                       rows={6} value={form.message} onChange={set('message')} onBlur={markTouched('message')}
                       placeholder="Describe your project, opportunity, or question..."
-                      aria-label="Your message"
+                      aria-invalid={!!(touched.message && errors.message)}
+                      aria-describedby={touched.message && errors.message ? 'contact-message-error' : undefined}
                       className={`${inputBase} ${getFieldClass('message')} resize-none`}
                     />
-                    {touched.message && errors.message && <p className="text-red-400 text-xs font-mono mt-1">{errors.message}</p>}
+                    {touched.message && errors.message && <p id="contact-message-error" className="text-red-400 text-xs font-mono mt-1">{errors.message}</p>}
                   </div>
 
                   <AnimatePresence>

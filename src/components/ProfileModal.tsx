@@ -1,9 +1,9 @@
 'use client';
 
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGlobal } from '@/lib/GlobalState';
 import RadialOrbitalTimeline from './ui/radial-orbital-timeline';
-
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -12,6 +12,17 @@ interface ProfileModalProps {
 
 export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
   const { profileCfg = {}, navbarCfg = {} } = useGlobal() || {};
+
+  // Escape key handler for accessible modal closing
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   // Fallback data if none exists in DB
   const defaultTimelineData = [
@@ -66,10 +77,14 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
           transition={{ duration: 0.3 }}
           className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-md flex items-center justify-center overflow-hidden"
           onClick={onClose}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Profile Experience Timeline"
         >
           {/* Close button */}
           <button 
             onClick={onClose}
+            aria-label="Close modal"
             className="absolute top-6 right-8 z-[110] w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/40 hover:scale-110 transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)]"
           >
             ✕

@@ -4,10 +4,10 @@ import bcrypt from 'bcryptjs';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
 
-const AUTH_SECRET = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'ant-portfolio-secret-key-fallback-2026';
+const AUTH_SECRET = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET;
 
-if (process.env.NODE_ENV === 'production' && !process.env.NEXTAUTH_SECRET && !process.env.AUTH_SECRET) {
-  console.warn('⚠️ [AUTH] NEXTAUTH_SECRET is not set in environment variables. Using secure fallback for deployment build.');
+if (!AUTH_SECRET && process.env.NEXT_PHASE !== 'phase-production-build') {
+  throw new Error('NEXTAUTH_SECRET or AUTH_SECRET must be configured in environment variables.');
 }
 
 export const authOptions: NextAuthOptions = {
@@ -67,8 +67,8 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.name = user.name;
-        token.role = (user as any).role || 'VIEWER';
-        token.permissions = (user as any).permissions || {};
+        token.role = user.role || 'VIEWER';
+        token.permissions = user.permissions || {};
         token.loginAt = Date.now();
       }
       return token;
@@ -76,11 +76,9 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token && session.user) {
         session.user.name = token.name as string;
-        // ── CRITICAL: Put role and userId on session.user so getServerSession
-        //    reliably returns them in both API routes and server actions ──
-        (session.user as any).role = token.role;
-        (session.user as any).userId = token.id;
-        (session.user as any).permissions = token.permissions;
+        session.user.role = token.role;
+        session.user.userId = token.id;
+        session.user.permissions = token.permissions;
       }
       return session;
     },
@@ -91,7 +89,7 @@ export const authOptions: NextAuthOptions = {
     error: '/dashboard',
   },
 
-  secret: AUTH_SECRET,
+  secret: AUTH_SECRET || 'build-phase-evaluation-secret',
 
   debug: false,
 };

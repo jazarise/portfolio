@@ -2,7 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 export async function proxy(req: NextRequest) {
-  const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'ant-portfolio-secret-key-fallback-2026';
+  const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET;
+  if (!secret) {
+    return new NextResponse(JSON.stringify({ error: 'Server authentication is not configured. NEXTAUTH_SECRET environment variable is missing.' }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
 
   const token = await getToken({ req, secret });
 
