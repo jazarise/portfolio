@@ -7,7 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
   const pageTitle = 'About - Cybersecurity & Red Teaming';
   const ogTitle = 'About Jaishanth | Cybersecurity Student';
-  const pageDesc = 'Learn about Jaishanth, a Cybersecurity student at MCET Pollachi specializing in ethical hacking, penetration testing, red teaming, and web security.';
+  const pageDesc = 'Jaishanth is a Cybersecurity student at MCET Pollachi specializing in ethical hacking, red teaming, and web security.';
 
   return {
     title: pageTitle,

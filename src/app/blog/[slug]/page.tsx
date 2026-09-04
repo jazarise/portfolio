@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogTitle = rawTitle.length > 58 ? rawTitle.slice(0, 55) + '...' : rawTitle;
 
   let description = post.excerpt || post.title;
-  if (description.length > 155) {
-    description = description.slice(0, 152) + '...';
+  if (description.length > 120) {
+    description = description.slice(0, 117) + '...';
   }
 
   const url = `${baseUrl}/blog/${encodeURIComponent(slug)}`;

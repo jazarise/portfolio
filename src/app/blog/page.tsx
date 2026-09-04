@@ -8,8 +8,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const cfg = await getContentSection('blog');
   const pageTitle = 'Cybersecurity Blog & CTF Write-ups';
   const ogTitle = 'Cybersecurity Blog & Write-ups | Jaishanth';
-  const defaultDesc = 'Read cybersecurity write-ups, CTF walkthroughs, vulnerability analyses, and ethical hacking research notes written by Jaishanth M at MCET Pollachi.';
-  const description = cfg.subtitle ? (cfg.subtitle.length > 155 ? cfg.subtitle.slice(0, 152) + '...' : cfg.subtitle) : defaultDesc;
+  const defaultDesc = 'Cybersecurity write-ups, CTF walkthroughs, vulnerability analyses, and ethical hacking research notes by Jaishanth M.';
+  const description = cfg.subtitle ? (cfg.subtitle.length > 120 ? cfg.subtitle.slice(0, 117) + '...' : cfg.subtitle) : defaultDesc;
 
   return {
     title: pageTitle,

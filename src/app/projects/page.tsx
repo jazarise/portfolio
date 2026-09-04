@@ -8,8 +8,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const cfg = await getContentSection('projects');
   const pageTitle = 'Cybersecurity Projects & Security Tools';
   const ogTitle = 'Cybersecurity Projects & Tools | Jaishanth';
-  const defaultDesc = 'Explore cybersecurity projects, custom security tools, penetration testing scripts, and ethical hacking projects built by Jaishanth M at MCET Pollachi.';
-  const description = cfg.subtitle ? (cfg.subtitle.length > 155 ? cfg.subtitle.slice(0, 152) + '...' : cfg.subtitle) : defaultDesc;
+  const defaultDesc = 'Cybersecurity projects, custom security tools, penetration testing scripts, and ethical hacking apps by Jaishanth M.';
+  const description = cfg.subtitle ? (cfg.subtitle.length > 120 ? cfg.subtitle.slice(0, 117) + '...' : cfg.subtitle) : defaultDesc;
 
   return {
     title: pageTitle,

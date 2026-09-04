@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
 
   const defaultTitle = 'Jaishanth | Cybersecurity Student & Ethical Hacker';
-  const defaultDesc = 'Jaishanth is a Cybersecurity student at MCET Pollachi focused on ethical hacking, penetration testing, VAPT, red teaming, and web security.';
+  const defaultDesc = 'Jaishanth is a Cybersecurity student at MCET Pollachi focused on ethical hacking, VAPT, red teaming, and web security.';
 
   return {
     metadataBase: new URL(baseUrl),

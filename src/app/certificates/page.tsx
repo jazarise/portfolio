@@ -8,8 +8,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const cfg = await getContentSection('certs');
   const pageTitle = 'Cybersecurity Certifications & Badges';
   const ogTitle = 'Cybersecurity Certifications | Jaishanth';
-  const defaultDesc = 'View verified cybersecurity certifications, TryHackMe achievements, security badges, and ethical hacking credentials earned by Jaishanth M.';
-  const description = cfg.subtitle ? (cfg.subtitle.length > 155 ? cfg.subtitle.slice(0, 152) + '...' : cfg.subtitle) : defaultDesc;
+  const defaultDesc = 'Verified cybersecurity certifications, TryHackMe achievements, security badges, and credentials earned by Jaishanth M.';
+  const description = cfg.subtitle ? (cfg.subtitle.length > 120 ? cfg.subtitle.slice(0, 117) + '...' : cfg.subtitle) : defaultDesc;
 
   return {
     title: pageTitle,

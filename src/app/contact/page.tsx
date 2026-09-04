@@ -8,8 +8,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const cfg = await getContentSection('contact');
   const pageTitle = 'Contact Me - Security & Hiring';
   const ogTitle = 'Contact Jaishanth | Cybersecurity & Red Teaming';
-  const defaultDesc = 'Get in touch with Jaishanth M, Cybersecurity student at MCET Pollachi. Open to security research, penetration testing, and red teaming projects.';
-  const description = cfg.subtitle ? (cfg.subtitle.length > 155 ? cfg.subtitle.slice(0, 152) + '...' : cfg.subtitle) : defaultDesc;
+  const defaultDesc = 'Get in touch with Jaishanth M, Cybersecurity student at MCET Pollachi. Open to security research & red teaming.';
+  const description = cfg.subtitle ? (cfg.subtitle.length > 120 ? cfg.subtitle.slice(0, 117) + '...' : cfg.subtitle) : defaultDesc;
 
   return {
     title: pageTitle,
