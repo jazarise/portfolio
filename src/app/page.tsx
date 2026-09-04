@@ -20,7 +20,7 @@ export default async function HomePage() {
       name: 'Jaishanth',
       givenName: 'Jaishanth',
       familyName: 'M',
-      alternateName: ['Jaishanth M', 'Jaishanth MCET', 'jaiz_sec', 'jazarise'],
+      alternateName: ['Jaishanth M', 'Jaishanth MCET', 'jaishanthh', 'jaishanthm', 'jaiz_sec', 'jazarise'],
       jobTitle: 'Cybersecurity Student & Ethical Hacker',
       description: 'Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.',
       url: baseUrl,
@@ -52,9 +52,11 @@ export default async function HomePage() {
         'Cloud Security'
       ],
       sameAs: [
+        'https://instagram.com/jaishanthh',
+        'https://github.com/jaishanthm',
+        'https://linkedin.com/in/jaishanth',
         'https://tryhackme.com/p/jaishanth',
-        'https://github.com/jazarise',
-        'https://linkedin.com/in/jaishanth'
+        'https://discord.com/users/jaishanth'
       ]
     },
     {
