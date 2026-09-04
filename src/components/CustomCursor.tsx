@@ -16,16 +16,15 @@ export default function CustomCursor() {
     const onMove = (e: MouseEvent) => {
       mouse.current.x = e.clientX;
       mouse.current.y = e.clientY;
-      dot.style.left = e.clientX + 'px';
-      dot.style.top = e.clientY + 'px';
+      dot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
     };
 
+    let animationFrameId: number;
     const animate = () => {
       ring.current.x += (mouse.current.x - ring.current.x) * 0.12;
       ring.current.y += (mouse.current.y - ring.current.y) * 0.12;
-      ringEl.style.left = ring.current.x + 'px';
-      ringEl.style.top = ring.current.y + 'px';
-      requestAnimationFrame(animate);
+      ringEl.style.transform = `translate3d(${ring.current.x}px, ${ring.current.y}px, 0) translate(-50%, -50%)`;
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     const onEnterInteractive = () => {
@@ -67,6 +66,7 @@ export default function CustomCursor() {
     document.addEventListener('mouseout', onMouseOut);
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       document.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseover', onMouseOver);
       document.removeEventListener('mouseout', onMouseOut);
@@ -76,17 +76,15 @@ export default function CustomCursor() {
   return (
     <div className="hidden md:block">
       <div ref={dotRef} style={{
-        position: 'fixed', width: 10, height: 10, borderRadius: '50%',
+        position: 'fixed', top: 0, left: 0, width: 10, height: 10, borderRadius: '50%',
         background: '#00d4ff', pointerEvents: 'none', zIndex: 99999,
-        transform: 'translate(-50%, -50%)',
         boxShadow: '0 0 15px #00d4ff, 0 0 40px rgba(0,212,255,.4)',
         mixBlendMode: 'screen',
         transition: 'width .2s, height .2s, background .2s, box-shadow .2s',
       }} />
       <div ref={ringRef} style={{
-        position: 'fixed', width: 36, height: 36, borderRadius: '50%',
+        position: 'fixed', top: 0, left: 0, width: 36, height: 36, borderRadius: '50%',
         border: '1px solid rgba(0,212,255,.5)', pointerEvents: 'none', zIndex: 99998,
-        transform: 'translate(-50%, -50%)',
         transition: 'width .3s, height .3s, border-color .3s',
       }} />
     </div>

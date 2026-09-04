@@ -45,7 +45,7 @@ export default function ProjectVideoPlayer({ youtubeUrl }: ProjectVideoPlayerPro
               className="group relative flex items-center gap-2 px-5 py-2.5 rounded-lg border border-neon-cyan/30 bg-neon-cyan/10 hover:bg-neon-cyan/20 transition-all text-sm font-medium text-neon-cyan overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-              <Play className="w-4 h-4" />
+              <Play className="w-4 h-4" aria-hidden="true" />
               <span>Watch Demo</span>
             </button>
           </motion.div>
@@ -65,7 +65,7 @@ export default function ProjectVideoPlayer({ youtubeUrl }: ProjectVideoPlayerPro
                 className="text-gray-400 hover:text-white p-1 rounded hover:bg-white/10 transition-colors"
                 aria-label="Close video"
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
             <div className="relative w-full pb-[56.25%]">
