@@ -86,7 +86,7 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     verification: {
-      google: 'google57deb98b597024da',
+      google: 'ooABEFeHebqS6ijG2fFcJ_YvkvJx3e-T9mxTSloCoy4',
     },
   };
 }
