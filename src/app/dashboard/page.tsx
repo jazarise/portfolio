@@ -14,9 +14,13 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function DashboardPage() {
-  // Server-side auth check — redirect handled by middleware, but this is a double-guard
-  const session = await getServerSession(authOptions);
+  let session = null;
+  try {
+    session = await getServerSession(authOptions);
+  } catch (err) {
+    console.warn('Dashboard getServerSession fallback:', err);
+  }
 
-  // Pass initial session state to client component
+  // Pass initial session state to client component safely
   return <DashboardContent initialAuthenticated={!!session} />;
 }

@@ -85,7 +85,7 @@ export const authOptions: NextAuthOptions = {
     error: '/dashboard',
   },
 
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'ant-portfolio-secret-key-fallback-2026',
 
   debug: false,
 };
