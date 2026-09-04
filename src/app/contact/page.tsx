@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import ContactContent from './ContactContent';
 import { getContentSection, getSocialLinks } from '@/app/actions';
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+import { getBaseUrl } from '@/lib/baseUrl';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const baseUrl = getBaseUrl();
   const cfg = await getContentSection('contact');
   const title = 'Contact Jaishanth | Cybersecurity Student & Ethical Hacker';
   const description = cfg.subtitle || 'Get in touch with Jaishanth M — Cybersecurity student at MCET Pollachi. Open to security research, penetration testing internships, and red teaming collaborations.';
@@ -34,6 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
+  const baseUrl = getBaseUrl();
   const cfg = await getContentSection('contact');
   const homeCfg = await getContentSection('home');
   const socialLinks = await getSocialLinks();

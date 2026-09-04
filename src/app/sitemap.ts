@@ -1,28 +1,9 @@
 import { MetadataRoute } from 'next';
-import { headers } from 'next/headers';
 import { getBlogPosts } from '@/app/actions';
-
-export const dynamic = 'force-dynamic';
-
-function getBaseUrl(host?: string | null, protocol: string = 'https'): string {
-  let domain = (host ? `${protocol}://${host}` : '') ||
-               process.env.NEXT_PUBLIC_SITE_URL ||
-               (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '') ||
-               (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '') ||
-               'https://portfolio-v2-fixed.vercel.app';
-  domain = domain.trim();
-  if (!domain.startsWith('http://') && !domain.startsWith('https://')) {
-    domain = `https://${domain}`;
-  }
-  return domain.replace(/\/+$/, '');
-}
+import { getBaseUrl } from '@/lib/baseUrl';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const headersList = await headers();
-  const host = headersList.get('x-forwarded-host') || headersList.get('host');
-  const protocol = headersList.get('x-forwarded-proto') || 'https';
-
-  const baseUrl = getBaseUrl(host, protocol);
+  const baseUrl = getBaseUrl().replace(/\/+$/, '');
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { route: '', priority: 1.0, changeFrequency: 'daily' as const },

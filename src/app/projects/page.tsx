@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import ProjectsContent from './ProjectsContent';
 import { getProjects, getContentSection } from '@/app/actions';
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+import { getBaseUrl } from '@/lib/baseUrl';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const baseUrl = getBaseUrl();
   const cfg = await getContentSection('projects');
   const title = 'Cybersecurity Projects & Tools | Jaishanth';
   const description = cfg.subtitle || 'Security tools, applications, penetration testing scripts, and research systems built by Jaishanth M.';
@@ -34,6 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ProjectsPage() {
+  const baseUrl = getBaseUrl();
   const dbProjects = await getProjects();
   const cfg = await getContentSection('projects');
 

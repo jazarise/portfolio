@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import CertsContent from './CertsContent';
 import { getCertificates, getContentSection } from '@/app/actions';
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+import { getBaseUrl } from '@/lib/baseUrl';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const baseUrl = getBaseUrl();
   const cfg = await getContentSection('certs');
   const title = 'Cybersecurity Certifications | Jaishanth';
   const description = cfg.subtitle || 'Verified cybersecurity certifications, badges, and training achievements earned by Jaishanth M.';
@@ -34,6 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CertificatesPage() {
+  const baseUrl = getBaseUrl();
   const dbCerts = await getCertificates();
   const cfg = await getContentSection('certs');
 

@@ -2,14 +2,14 @@ import { getBlogPostBySlug } from '@/app/actions';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { getBaseUrl } from '@/lib/baseUrl';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const baseUrl = getBaseUrl();
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
   if (!post) return { title: 'Article Not Found' };
@@ -48,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
+  const baseUrl = getBaseUrl();
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
 

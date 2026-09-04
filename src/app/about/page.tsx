@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import AboutContent from './AboutContent';
 import { getContentSection } from '@/app/actions';
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+import { getBaseUrl } from '@/lib/baseUrl';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const baseUrl = getBaseUrl();
   const defaultTitle = 'About | Jaishanth | Cybersecurity Student @ MCET Pollachi';
   const defaultDesc = 'Jaishanth is a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.';
 
@@ -51,6 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
+  const baseUrl = getBaseUrl();
   const cfg = await getContentSection('about');
   const homeCfg = await getContentSection('home');
 

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import BlogContent from './BlogContent';
 import { getBlogPosts, getContentSection } from '@/app/actions';
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+import { getBaseUrl } from '@/lib/baseUrl';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const baseUrl = getBaseUrl();
   const cfg = await getContentSection('blog');
   const title = 'Cybersecurity Blog & Security Write-ups | Jaishanth';
   const description = cfg.subtitle || 'Security write-ups, CTF solutions, vulnerability analyses, and research notes by Jaishanth M.';
@@ -34,6 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogPage() {
+  const baseUrl = getBaseUrl();
   const dbPosts = await getBlogPosts();
   const cfg = await getContentSection('blog');
 

@@ -6,26 +6,10 @@ import ScrollProgress from '@/components/ScrollProgress';
 import ClientProviders from '@/components/ClientProviders';
 import { getContentSection, getSocialLinks } from '@/app/actions';
 import { GlobalStateProvider } from '@/lib/GlobalState';
-import { headers } from 'next/headers';
-
-function getBaseUrl(host?: string | null, protocol: string = 'https'): string {
-  let domain = (host ? `${protocol}://${host}` : '') ||
-               process.env.NEXT_PUBLIC_SITE_URL ||
-               (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '') ||
-               (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '') ||
-               'https://portfolio-v2-fixed.vercel.app';
-  domain = domain.trim();
-  if (!domain.startsWith('http://') && !domain.startsWith('https://')) {
-    domain = `https://${domain}`;
-  }
-  return domain.replace(/\/+$/, '');
-}
+import { getBaseUrl } from '@/lib/baseUrl';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const headersList = await headers();
-  const host = headersList.get('x-forwarded-host') || headersList.get('host');
-  const protocol = headersList.get('x-forwarded-proto') || 'https';
-  const baseUrl = getBaseUrl(host, protocol);
+  const baseUrl = getBaseUrl();
 
   const defaultTitle = 'Jaishanth | Cybersecurity Student | Ethical Hacker & Red Teaming';
   const defaultDesc = 'Jaishanth is a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET Pollachi) focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.';

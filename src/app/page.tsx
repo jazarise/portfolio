@@ -1,20 +1,7 @@
 import { getContentSection, getProjects, getCertificates } from '@/app/actions';
 import { getGithubStats } from '@/lib/githubStats';
 import HomeClient from './HomeClient';
-import { headers } from 'next/headers';
-
-function getBaseUrl(host?: string | null, protocol: string = 'https'): string {
-  let domain = (host ? `${protocol}://${host}` : '') ||
-               process.env.NEXT_PUBLIC_SITE_URL ||
-               (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '') ||
-               (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '') ||
-               'https://portfolio-v2-fixed.vercel.app';
-  domain = domain.trim();
-  if (!domain.startsWith('http://') && !domain.startsWith('https://')) {
-    domain = `https://${domain}`;
-  }
-  return domain.replace(/\/+$/, '');
-}
+import { getBaseUrl } from '@/lib/baseUrl';
 
 export default async function HomePage() {
   const [cfg, projects, certs] = await Promise.all([
@@ -24,11 +11,7 @@ export default async function HomePage() {
   ]);
 
   const githubStats = await getGithubStats(cfg.githubUsername);
-
-  const headersList = await headers();
-  const host = headersList.get('x-forwarded-host') || headersList.get('host');
-  const protocol = headersList.get('x-forwarded-proto') || 'https';
-  const baseUrl = getBaseUrl(host, protocol);
+  const baseUrl = getBaseUrl();
 
   const jsonLdSchemas = [
     {
