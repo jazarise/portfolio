@@ -17,21 +17,22 @@ const PUBLIC_SECTIONS = new Set(['home', 'about', 'projects', 'certs', 'blog', '
 
 const DEFAULT_CONTENT: Record<string, any> = {
   home: {
-    heading: 'Jaishanth M',
-    subheading: 'Aspiring Red Teamer',
-    tagline: 'Cybersecurity Student',
-    bio: 'CS student with a security-first mindset. I break things to understand how to defend them — from network penetration testing to web app exploitation. Hands-on experience with TryHackMe, HackTheBox, and real-world security labs.',
+    heading: 'Jaishanth',
+    subheading: 'Cybersecurity Student @ MCET Pollachi',
+    tagline: 'Ethical Hacker & Red Teamer',
+    bio: 'Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, passionate about ethical hacking, offensive security, penetration testing, vulnerability assessment, and security research.',
     availableForWork: true,
-    location: 'Tamil Nadu, India',
+    location: 'MCET, Pollachi, Tamil Nadu, India',
     email: 'jaishanthcys@gmail.com',
-    platforms: 'TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth; Hack The Box,Hacker,#9fef00,https://hackthebox.com',
-    skills: 'Penetration Testing,85;Network Security,80;VAPT & Threat Analysis,78;Python/Scripting,90;Web App Security,82;Malware Analysis,65',
+    platforms: 'TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth; LinkedIn,Jaishanth,#0077b5,https://linkedin.com',
+    skills: 'Penetration Testing,85;Network Security,80;VAPT & Threat Analysis,78;Python/Automation,90;Web App Security,82;Linux & Active Directory,85',
   },
   about: {
-    p1: 'I am a cybersecurity enthusiast and full-stack developer who believes that to defend a system, you must first know how to break it.',
-    p2: 'My journey began by exploring network security and CTF challenges, which naturally evolved into offensive security and vulnerability research.',
-    p3: 'When I am not hunting bugs or analyzing packet captures, I am building robust, secure-by-design applications using modern stacks like Next.js, Python, and Go.',
-    focuses: 'Offensive Security,Focus;Secure Architecture,Expertise;Machine Learning for Sec,Research',
+    p1: 'Hi, I’m Jaishanth, a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, passionate about ethical hacking, offensive security, penetration testing, vulnerability assessment, and security research.',
+    p2: 'I’m building my cybersecurity expertise through hands-on labs, practical security testing, and continuous research. My learning journey focuses on understanding how real-world attacks work, identifying security weaknesses, and developing the technical skills required to secure modern systems and applications.',
+    p3: 'My areas of interest include web application security, network security, vulnerability assessment, penetration testing, Linux and Windows security, Active Directory, Python automation, cloud security, MITRE ATT&CK, red teaming, and adversary simulation.',
+    p4: 'I regularly practice cybersecurity through hands-on platforms such as TryHackMe, where I work through practical security challenges and strengthen my understanding of offensive security concepts. I believe cybersecurity is best learned by building, breaking, analyzing, and understanding how systems actually work. My goal is to become a highly skilled Offensive Security Engineer and Red Teamer, capable of discovering vulnerabilities, understanding attack paths, performing responsible security assessments, and helping organizations build stronger defenses.',
+    focuses: 'Offensive Security,Focus;Ethical Hacking & VAPT,Specialization;Web & Network Security,Expertise;Linux & Active Directory,Systems;Python & MITRE ATT&CK,Tools;Cloud Security & Red Teaming,Target',
   },
   projects: {
     title: 'Projects & Tools',

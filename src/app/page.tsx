@@ -14,13 +14,30 @@ export default async function HomePage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: cfg.heading || 'Jaishanth M',
-    jobTitle: cfg.subheading || 'Offensive Security Student',
-    description: cfg.bio || 'Cybersecurity portfolio focusing on offensive security, pentesting, and secure software engineering.',
+    name: 'Jaishanth',
+    jobTitle: 'Cybersecurity Student & Ethical Hacker',
+    description: 'Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev',
+    alumniOf: {
+      '@type': 'EducationalOrganization',
+      name: 'Dr. Mahalingam College of Engineering and Technology',
+      alternateName: 'MCET Pollachi',
+    },
+    knowsAbout: [
+      'Ethical Hacking',
+      'Penetration Testing',
+      'Vulnerability Assessment',
+      'Web Application Security',
+      'Network Security',
+      'Red Teaming',
+      'Active Directory Security',
+      'Linux Security',
+      'Python Automation',
+      'MITRE ATT&CK'
+    ],
     sameAs: [
-      'https://github.com/jazarise',
       'https://tryhackme.com/p/jaishanth',
+      'https://github.com/jazarise',
     ],
   };
 

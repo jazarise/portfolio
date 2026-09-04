@@ -57,22 +57,30 @@ export default function AboutContent({ cfg, homeCfg }: { cfg: any, homeCfg: any 
             <div className="space-y-8">
               <div>
                 <h3 className="font-display font-bold text-lg text-white mb-3 flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-neon-purple" /> Security Mindset
+                  <Shield className="w-5 h-5 text-neon-purple" /> Identity & Education
                 </h3>
-                <p className="text-gray-400 leading-relaxed">{smartPlaceholder(cfg.p1)}</p>
+                <p className="text-gray-300 leading-relaxed font-sans">{smartPlaceholder(cfg.p1)}</p>
               </div>
               <div>
                 <h3 className="font-display font-bold text-lg text-white mb-3 flex items-center gap-2">
-                  <Terminal className="w-5 h-5 text-neon-cyan" /> The Journey
+                  <Terminal className="w-5 h-5 text-neon-cyan" /> Security Mindset & Approach
                 </h3>
-                <p className="text-gray-400 leading-relaxed">{smartPlaceholder(cfg.p2)}</p>
+                <p className="text-gray-300 leading-relaxed font-sans">{smartPlaceholder(cfg.p2)}</p>
               </div>
               <div>
                 <h3 className="font-display font-bold text-lg text-white mb-3 flex items-center gap-2">
-                  <Code className="w-5 h-5 text-neon-pink" /> Beyond Hacking
+                  <Code className="w-5 h-5 text-neon-pink" /> Technical Specializations
                 </h3>
-                <p className="text-gray-400 leading-relaxed">{smartPlaceholder(cfg.p3)}</p>
+                <p className="text-gray-300 leading-relaxed font-sans">{smartPlaceholder(cfg.p3)}</p>
               </div>
+              {cfg.p4 && (
+                <div>
+                  <h3 className="font-display font-bold text-lg text-white mb-3 flex items-center gap-2">
+                    <Lightbulb className="w-5 h-5 text-emerald-400" /> Practice & Career Goals
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed font-sans">{cfg.p4}</p>
+                </div>
+              )}
 
               <div className="flex flex-wrap gap-3 pt-2">
                 {[loc, mail].filter(Boolean).map(item => (

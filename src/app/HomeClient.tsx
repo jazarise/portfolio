@@ -106,7 +106,7 @@ export default function HomeClient({ cfg: previewCfg, projectCount = 0, certCoun
     return parsed.length > 0 ? parsed : DEFAULT_TESTIMONIALS;
   }, [cfg.testimonials]);
 
-  const fullName = smartPlaceholder(cfg.heading, 'Jaishanth M');
+  const fullName = smartPlaceholder(cfg.heading, 'Jaishanth');
   const whoamiOutput = `${fullName} / ${cfg.subheading || 'Offensive Security Student'}`;
   const { displayedText: typedWhoami, done: whoamiDone } = useTypingAnimation(whoamiOutput, 40);
 
@@ -234,7 +234,7 @@ export default function HomeClient({ cfg: previewCfg, projectCount = 0, certCoun
                       <li key={p}><span className="text-neon-purple">→</span> {p}</li>
                     ))}
                   </ul>
-                  <Line cmd="echo $LOCATION" out={cfg.location || 'Tamil Nadu, India'} outColor="text-emerald-300" />
+                  <Line cmd="echo $LOCATION" out={cfg.location || 'MCET, Pollachi, Tamil Nadu, India'} outColor="text-emerald-300" />
                   <Line cmd="nmap -sV --top-ports 100 target" out="Scanning for open ports..." outColor="text-neon-cyan" />
                   <div className="flex gap-2">
                     <span className="text-neon-pink">❯</span>
