@@ -61,7 +61,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: 'website',
       images: [
         {
-          url: `${baseUrl}/profile.jpg`,
+          url: `${baseUrl}/og-image.png`,
           width: 1200,
           height: 630,
           alt: 'Jaishanth - Cybersecurity Student & Ethical Hacker at MCET Pollachi',
@@ -72,7 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: defaultTitle,
       description: defaultDesc,
-      images: [`${baseUrl}/profile.jpg`],
+      images: [`${baseUrl}/og-image.png`],
       creator: '@jaishanth',
     },
     robots: {
