@@ -31,6 +31,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config, { isServer }: { isServer: boolean }) => {
+    if (!isServer) {
+      config.resolve.alias['next/dist/build/polyfills/polyfill-module'] = false;
+    }
+    return config;
+  },
   async headers() {
     return [
       {

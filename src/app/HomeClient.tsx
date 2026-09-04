@@ -121,53 +121,43 @@ export default function HomeClient({ cfg: previewCfg, projectCount = 0, certCoun
         <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
           {/* LEFT */}
           <div className="flex flex-col gap-5 relative z-10">
-            <Reveal>
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/8 backdrop-blur-md w-fit">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/8 backdrop-blur-md w-fit animate-fade-up">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+              </span>
+              <span className="text-xs font-mono font-medium tracking-wider text-emerald-300">
+                {cfg.availableForWork ? 'AVAILABLE FOR INTERNSHIPS' : 'CURRENTLY UNAVAILABLE'}
+              </span>
+            </div>
+
+            {/* Full name — instant LCP render without JS animation delay */}
+            <h1 className="font-bold font-display leading-[1.0] tracking-tighter whitespace-normal sm:whitespace-nowrap break-words animate-fade-up" style={{ fontSize: 'clamp(1.8rem, 8.5vw, 5.5rem)' }}>
+              {fullName.split(' ').slice(0, -1).join(' ')}{' '}
+              <span className="neon-text neon-text-glow">{fullName.split(' ').slice(-1)[0]}.</span>
+            </h1>
+
+            <div className="flex items-center gap-3 flex-wrap animate-fade-up">
+              <h2 className="text-base md:text-xl font-mono text-gray-300">Offensive Security Student</h2>
+              <span className="px-3 py-1 rounded-full bg-neon-purple/12 border border-neon-purple/25 text-neon-purple font-mono text-xs">
+                Building toward Red Team
+              </span>
+            </div>
+
+            <div className="flex flex-wrap gap-1.5 animate-fade-up">
+              {['VAPT', 'Pen Testing', 'Recon', 'Exploitation', 'Net Sec'].map(tag => (
+                <span key={tag} className="px-2.5 py-1 rounded-md bg-white/[0.05] border border-white/10 text-gray-400 font-mono text-[10px] tracking-wider">
+                  {tag}
                 </span>
-                <span className="text-xs font-mono font-medium tracking-wider text-emerald-300">
-                  {cfg.availableForWork ? 'AVAILABLE FOR INTERNSHIPS' : 'CURRENTLY UNAVAILABLE'}
-                </span>
-              </div>
-            </Reveal>
+              ))}
+            </div>
 
-            {/* Full name — responsive clamp & smooth wrap on small screens */}
-            <Reveal delay={0.1}>
-              <h1 className="font-bold font-display leading-[1.0] tracking-tighter whitespace-normal sm:whitespace-nowrap break-words" style={{ fontSize: 'clamp(1.8rem, 8.5vw, 5.5rem)' }}>
-                {fullName.split(' ').slice(0, -1).join(' ')}{' '}
-                <span className="neon-text neon-text-glow">{fullName.split(' ').slice(-1)[0]}.</span>
-              </h1>
-            </Reveal>
-
-            <Reveal delay={0.2}>
-              <div className="flex items-center gap-3 flex-wrap">
-                <h2 className="text-base md:text-xl font-mono text-gray-300">Offensive Security Student</h2>
-                <span className="px-3 py-1 rounded-full bg-neon-purple/12 border border-neon-purple/25 text-neon-purple font-mono text-xs">
-                  Building toward Red Team
-                </span>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.25}>
-              <div className="flex flex-wrap gap-1.5">
-                {['VAPT', 'Pen Testing', 'Recon', 'Exploitation', 'Net Sec'].map(tag => (
-                  <span key={tag} className="px-2.5 py-1 rounded-md bg-white/[0.05] border border-white/10 text-gray-400 font-mono text-[10px] tracking-wider">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.3}>
-              <p className="text-sm md:text-base text-gray-300 max-w-xl leading-relaxed">
-                {smartPlaceholder(
-                  cfg.bio,
-                  'I find the gaps attackers exploit before they do. Hands-on in pentesting labs, CTFs, and network security, turning it into documented, real-world findings — not just certificates.'
-                )}
-              </p>
-            </Reveal>
+            <p className="text-sm md:text-base text-gray-300 max-w-xl leading-relaxed animate-fade-up">
+              {smartPlaceholder(
+                cfg.bio,
+                'I find the gaps attackers exploit before they do. Hands-on in pentesting labs, CTFs, and network security, turning it into documented, real-world findings — not just certificates.'
+              )}
+            </p>
 
             <Reveal delay={0.4}>
               <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 mt-1">
