@@ -2,9 +2,10 @@ import { MetadataRoute } from 'next';
 import { getBlogPosts } from '@/app/actions';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+  const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+  const baseUrl = rawBaseUrl.replace(/\/+$/, '');
 
-  const staticRoutes = [
+  const staticRoutes: MetadataRoute.Sitemap = [
     { route: '', priority: 1.0, changeFrequency: 'daily' as const },
     { route: '/about', priority: 0.9, changeFrequency: 'weekly' as const },
     { route: '/projects', priority: 0.8, changeFrequency: 'weekly' as const },
@@ -20,16 +21,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const posts = await getBlogPosts();
-    const blogRoutes = posts.map((post: any) => ({
-      url: `${baseUrl}/blog/${encodeURIComponent(post.slug || post._id)}`,
-      lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }));
+    if (!Array.isArray(posts)) {
+      return staticRoutes;
+    }
+
+    const blogRoutes: MetadataRoute.Sitemap = posts
+      .filter((post: any) => post && (post.slug || post._id))
+      .map((post: any) => {
+        const slugStr = String(post.slug || post._id).trim();
+        return {
+          url: `${baseUrl}/blog/${encodeURIComponent(slugStr)}`,
+          lastModified: post.updatedAt ? new Date(post.updatedAt) : (post.createdAt ? new Date(post.createdAt) : new Date()),
+          changeFrequency: 'monthly' as const,
+          priority: 0.7,
+        };
+      });
 
     return [...staticRoutes, ...blogRoutes];
   } catch {
     return staticRoutes;
   }
 }
+
 
