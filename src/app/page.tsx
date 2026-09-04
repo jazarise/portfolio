@@ -10,42 +10,83 @@ export default async function HomePage() {
   ]);
 
   const githubStats = await getGithubStats(cfg.githubUsername);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Jaishanth',
-    jobTitle: 'Cybersecurity Student & Ethical Hacker',
-    description: 'Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev',
-    alumniOf: {
-      '@type': 'EducationalOrganization',
-      name: 'Dr. Mahalingam College of Engineering and Technology',
-      alternateName: 'MCET Pollachi',
+  const jsonLdSchemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      '@id': `${baseUrl}/#person`,
+      name: 'Jaishanth',
+      givenName: 'Jaishanth',
+      familyName: 'M',
+      alternateName: ['Jaishanth M', 'Jaishanth MCET', 'jaiz_sec', 'jazarise'],
+      jobTitle: 'Cybersecurity Student & Ethical Hacker',
+      description: 'Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.',
+      url: baseUrl,
+      image: `${baseUrl}/profile.jpg`,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Pollachi',
+        addressRegion: 'Tamil Nadu',
+        addressCountry: 'India'
+      },
+      alumniOf: {
+        '@type': 'EducationalOrganization',
+        name: 'Dr. Mahalingam College of Engineering and Technology',
+        alternateName: 'MCET Pollachi',
+        url: 'https://mcet.in'
+      },
+      knowsAbout: [
+        'Cybersecurity',
+        'Ethical Hacking',
+        'Penetration Testing',
+        'Vulnerability Assessment',
+        'Web Application Security',
+        'Network Security',
+        'Red Teaming',
+        'Active Directory Security',
+        'Linux & Windows Security',
+        'Python Automation',
+        'MITRE ATT&CK',
+        'Cloud Security'
+      ],
+      sameAs: [
+        'https://tryhackme.com/p/jaishanth',
+        'https://github.com/jazarise',
+        'https://linkedin.com/in/jaishanth'
+      ]
     },
-    knowsAbout: [
-      'Ethical Hacking',
-      'Penetration Testing',
-      'Vulnerability Assessment',
-      'Web Application Security',
-      'Network Security',
-      'Red Teaming',
-      'Active Directory Security',
-      'Linux Security',
-      'Python Automation',
-      'MITRE ATT&CK'
-    ],
-    sameAs: [
-      'https://tryhackme.com/p/jaishanth',
-      'https://github.com/jazarise',
-    ],
-  };
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': `${baseUrl}/#website`,
+      url: baseUrl,
+      name: 'Jaishanth - Cybersecurity Portfolio',
+      description: 'Official Cybersecurity Portfolio of Jaishanth, Cybersecurity Student at Dr. Mahalingam College of Engineering and Technology (MCET Pollachi).',
+      publisher: {
+        '@type': 'Person',
+        name: 'Jaishanth'
+      },
+      inLanguage: 'en-US'
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ProfilePage',
+      '@id': `${baseUrl}/#profilepage`,
+      url: baseUrl,
+      name: 'Jaishanth | Cybersecurity Student | Ethical Hacker & Red Teaming',
+      mainEntity: {
+        '@id': `${baseUrl}/#person`
+      }
+    }
+  ];
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchemas) }}
       />
       <HomeClient
         cfg={cfg}

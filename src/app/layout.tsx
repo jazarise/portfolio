@@ -10,14 +10,23 @@ import { GlobalStateProvider } from '@/lib/GlobalState';
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const defaultTitle = 'Jaishanth | Cybersecurity Student | Ethical Hacker & Red Teaming';
+  const defaultDesc = 'Jaishanth is a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET Pollachi) focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.';
+
   return {
     metadataBase: new URL(baseUrl),
-    title: 'Jaishanth | Cybersecurity Student | Ethical Hacker & Red Teaming',
-    description: 'Jaishanth is a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.',
+    title: {
+      default: defaultTitle,
+      template: '%s | Jaishanth',
+    },
+    description: defaultDesc,
     keywords: [
+      'Jaishanth',
       'Jaishanth cybersecurity',
       'Jaishanth ethical hacker',
       'Jaishanth penetration testing',
+      'Jaishanth MCET',
+      'Jaishanth Pollachi',
       'cybersecurity student India',
       'ethical hacking student',
       'offensive security',
@@ -27,25 +36,55 @@ export async function generateMetadata(): Promise<Metadata> {
       'penetration tester',
       'security researcher',
       'Dr Mahalingam College of Engineering and Technology cybersecurity',
-      'MCET Pollachi',
-      'TryHackMe'
+      'MCET Pollachi cybersecurity',
+      'TryHackMe Jaishanth',
+      'VAPT engineer India'
     ],
+    authors: [{ name: 'Jaishanth', url: baseUrl }],
+    creator: 'Jaishanth',
+    publisher: 'Jaishanth',
+    formatDetection: {
+      email: true,
+      address: true,
+      telephone: true,
+    },
     alternates: {
       canonical: '/',
     },
     openGraph: {
-      title: 'Jaishanth | Cybersecurity Student | Ethical Hacker & Red Teaming',
-      description: 'Jaishanth is a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.',
+      title: defaultTitle,
+      description: defaultDesc,
       url: baseUrl,
-      type: 'website',
       siteName: 'Jaishanth Cybersecurity Portfolio',
+      locale: 'en_US',
+      type: 'website',
+      images: [
+        {
+          url: `${baseUrl}/profile.jpg`,
+          width: 1200,
+          height: 630,
+          alt: 'Jaishanth - Cybersecurity Student & Ethical Hacker at MCET Pollachi',
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Jaishanth | Cybersecurity Student | Ethical Hacker & Red Teaming',
-      description: 'Jaishanth is a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.',
+      title: defaultTitle,
+      description: defaultDesc,
+      images: [`${baseUrl}/profile.jpg`],
+      creator: '@jaishanth',
     },
-    robots: 'index, follow',
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 

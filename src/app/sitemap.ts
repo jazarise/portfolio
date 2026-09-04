@@ -5,17 +5,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
 
   const staticRoutes = [
-    '',
-    '/about',
-    '/projects',
-    '/certificates',
-    '/blog',
-    '/contact',
-  ].map((route) => ({
+    { route: '', priority: 1.0, changeFrequency: 'daily' as const },
+    { route: '/about', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/projects', priority: 0.8, changeFrequency: 'weekly' as const },
+    { route: '/certificates', priority: 0.8, changeFrequency: 'weekly' as const },
+    { route: '/blog', priority: 0.8, changeFrequency: 'daily' as const },
+    { route: '/contact', priority: 0.7, changeFrequency: 'monthly' as const },
+  ].map(({ route, priority, changeFrequency }) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : 0.8,
+    changeFrequency,
+    priority,
   }));
 
   try {
@@ -24,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/blog/${encodeURIComponent(post.slug || post._id)}`,
       lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(),
       changeFrequency: 'monthly' as const,
-      priority: 0.6,
+      priority: 0.7,
     }));
 
     return [...staticRoutes, ...blogRoutes];
@@ -32,3 +32,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return staticRoutes;
   }
 }
+
