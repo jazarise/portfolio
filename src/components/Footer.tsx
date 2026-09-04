@@ -8,16 +8,16 @@ import { SiTryhackme, SiHackthebox } from 'react-icons/si';
 const getSocialIcon = (platform: string) => {
   const p = platform.toLowerCase();
   
-  if (p.includes('linkedin')) return <FaLinkedin className="w-5 h-5" />;
-  if (p.includes('github')) return <FaGithub className="w-5 h-5" />;
-  if (p.includes('instagram')) return <FaInstagram className="w-5 h-5" />;
-  if (p.includes('discord')) return <FaDiscord className="w-5 h-5" />;
-  if (p.includes('tryhackme')) return <SiTryhackme className="w-5 h-5" />;
-  if (p.includes('hackthebox') || p.includes('htb')) return <SiHackthebox className="w-5 h-5" />;
-  if (p.includes('twitter') || p.includes('x')) return <FaTwitter className="w-5 h-5" />;
-  if (p.includes('email') || p.includes('mail')) return <FaEnvelope className="w-5 h-5" />;
+  if (p.includes('linkedin')) return <FaLinkedin aria-hidden="true" className="w-5 h-5" />;
+  if (p.includes('github')) return <FaGithub aria-hidden="true" className="w-5 h-5" />;
+  if (p.includes('instagram')) return <FaInstagram aria-hidden="true" className="w-5 h-5" />;
+  if (p.includes('discord')) return <FaDiscord aria-hidden="true" className="w-5 h-5" />;
+  if (p.includes('tryhackme')) return <SiTryhackme aria-hidden="true" className="w-5 h-5" />;
+  if (p.includes('hackthebox') || p.includes('htb')) return <SiHackthebox aria-hidden="true" className="w-5 h-5" />;
+  if (p.includes('twitter') || p.includes('x')) return <FaTwitter aria-hidden="true" className="w-5 h-5" />;
+  if (p.includes('email') || p.includes('mail')) return <FaEnvelope aria-hidden="true" className="w-5 h-5" />;
   
-  return <FaGithub className="w-5 h-5" />;
+  return <FaGithub aria-hidden="true" className="w-5 h-5" />;
 };
 
 const getHoverColor = (platform: string) => {
