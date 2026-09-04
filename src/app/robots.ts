@@ -1,7 +1,10 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jaishanth.dev';
+  let rawBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || 'https://jaishanth.dev';
+  if (!rawBaseUrl.startsWith('http://') && !rawBaseUrl.startsWith('https://')) {
+    rawBaseUrl = `https://${rawBaseUrl}`;
+  }
   const baseUrl = rawBaseUrl.replace(/\/+$/, '');
 
   return {
