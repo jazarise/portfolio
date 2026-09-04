@@ -1,0 +1,7 @@
+{
+  "terminal.integrated.env.windows": {
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "npm.packageManager": "npm"
+}
