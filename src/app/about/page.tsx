@@ -5,12 +5,13 @@ import { getBaseUrl } from '@/lib/baseUrl';
 
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
-  const defaultTitle = 'About | Jaishanth | Cybersecurity Student @ MCET Pollachi';
-  const defaultDesc = 'Jaishanth is a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.';
+  const pageTitle = 'About - Cybersecurity & Red Teaming';
+  const ogTitle = 'About Jaishanth | Cybersecurity Student';
+  const pageDesc = 'Learn about Jaishanth, a Cybersecurity student at MCET Pollachi specializing in ethical hacking, penetration testing, red teaming, and web security.';
 
   return {
-    title: defaultTitle,
-    description: defaultDesc,
+    title: pageTitle,
+    description: pageDesc,
     keywords: [
       'Jaishanth cybersecurity',
       'Jaishanth ethical hacker',
@@ -27,8 +28,8 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: `${baseUrl}/about`,
     },
     openGraph: {
-      title: defaultTitle,
-      description: defaultDesc,
+      title: ogTitle,
+      description: pageDesc,
       url: `${baseUrl}/about`,
       siteName: 'Jaishanth Cybersecurity Portfolio',
       type: 'profile',
@@ -43,8 +44,8 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: defaultTitle,
-      description: defaultDesc,
+      title: ogTitle,
+      description: pageDesc,
       images: [`${baseUrl}/og-image.png`],
     },
   };

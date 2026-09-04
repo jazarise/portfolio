@@ -14,12 +14,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getBlogPostBySlug(slug);
   if (!post) return { title: 'Article Not Found' };
 
-  const title = `${post.title} | Jaishanth Cybersecurity Blog`;
-  const description = post.excerpt || post.title;
+  const rawTitle = post.title;
+  // pageTitle + ' | Jaishanth' template stays under 58 chars
+  const pageTitle = rawTitle.length > 44 ? rawTitle.slice(0, 41) + '...' : rawTitle;
+  const ogTitle = rawTitle.length > 58 ? rawTitle.slice(0, 55) + '...' : rawTitle;
+
+  let description = post.excerpt || post.title;
+  if (description.length > 155) {
+    description = description.slice(0, 152) + '...';
+  }
+
   const url = `${baseUrl}/blog/${encodeURIComponent(slug)}`;
 
   return {
-    title,
+    title: pageTitle,
     description,
     keywords: [
       'Jaishanth security writeup',
@@ -30,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: url,
     },
     openGraph: {
-      title,
+      title: ogTitle,
       description,
       url,
       type: 'article',
@@ -38,11 +46,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: ['Jaishanth'],
       tags: post.tags || [],
       siteName: 'Jaishanth Cybersecurity Portfolio',
+      images: [
+        {
+          url: `${baseUrl}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: ogTitle,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: ogTitle,
       description,
+      images: [`${baseUrl}/og-image.png`],
     },
   };
 }

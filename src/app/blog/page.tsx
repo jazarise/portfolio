@@ -6,11 +6,13 @@ import { getBaseUrl } from '@/lib/baseUrl';
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
   const cfg = await getContentSection('blog');
-  const title = 'Cybersecurity Blog & Security Write-ups | Jaishanth';
-  const description = cfg.subtitle || 'Security write-ups, CTF solutions, vulnerability analyses, and research notes by Jaishanth M.';
+  const pageTitle = 'Cybersecurity Blog & CTF Write-ups';
+  const ogTitle = 'Cybersecurity Blog & Write-ups | Jaishanth';
+  const defaultDesc = 'Read cybersecurity write-ups, CTF walkthroughs, vulnerability analyses, and ethical hacking research notes written by Jaishanth M at MCET Pollachi.';
+  const description = cfg.subtitle ? (cfg.subtitle.length > 155 ? cfg.subtitle.slice(0, 152) + '...' : cfg.subtitle) : defaultDesc;
 
   return {
-    title,
+    title: pageTitle,
     description,
     keywords: [
       'Jaishanth blog',
@@ -24,11 +26,25 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: `${baseUrl}/blog`,
     },
     openGraph: {
-      title,
+      title: ogTitle,
       description,
       url: `${baseUrl}/blog`,
       siteName: 'Jaishanth Cybersecurity Portfolio',
       type: 'website',
+      images: [
+        {
+          url: `${baseUrl}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: 'Jaishanth Cybersecurity Blog & CTF Write-ups',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: ogTitle,
+      description,
+      images: [`${baseUrl}/og-image.png`],
     },
   };
 }

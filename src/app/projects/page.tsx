@@ -6,11 +6,13 @@ import { getBaseUrl } from '@/lib/baseUrl';
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
   const cfg = await getContentSection('projects');
-  const title = 'Cybersecurity Projects & Tools | Jaishanth';
-  const description = cfg.subtitle || 'Security tools, applications, penetration testing scripts, and research systems built by Jaishanth M.';
+  const pageTitle = 'Cybersecurity Projects & Security Tools';
+  const ogTitle = 'Cybersecurity Projects & Tools | Jaishanth';
+  const defaultDesc = 'Explore cybersecurity projects, custom security tools, penetration testing scripts, and ethical hacking projects built by Jaishanth M at MCET Pollachi.';
+  const description = cfg.subtitle ? (cfg.subtitle.length > 155 ? cfg.subtitle.slice(0, 152) + '...' : cfg.subtitle) : defaultDesc;
 
   return {
-    title,
+    title: pageTitle,
     description,
     keywords: [
       'Jaishanth projects',
@@ -24,11 +26,25 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: `${baseUrl}/projects`,
     },
     openGraph: {
-      title,
+      title: ogTitle,
       description,
       url: `${baseUrl}/projects`,
       siteName: 'Jaishanth Cybersecurity Portfolio',
       type: 'website',
+      images: [
+        {
+          url: `${baseUrl}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: 'Jaishanth Cybersecurity Projects & Security Tools',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: ogTitle,
+      description,
+      images: [`${baseUrl}/og-image.png`],
     },
   };
 }

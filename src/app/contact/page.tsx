@@ -6,11 +6,13 @@ import { getBaseUrl } from '@/lib/baseUrl';
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
   const cfg = await getContentSection('contact');
-  const title = 'Contact Jaishanth | Cybersecurity Student & Ethical Hacker';
-  const description = cfg.subtitle || 'Get in touch with Jaishanth M — Cybersecurity student at MCET Pollachi. Open to security research, penetration testing internships, and red teaming collaborations.';
+  const pageTitle = 'Contact Me - Security & Hiring';
+  const ogTitle = 'Contact Jaishanth | Cybersecurity & Red Teaming';
+  const defaultDesc = 'Get in touch with Jaishanth M, Cybersecurity student at MCET Pollachi. Open to security research, penetration testing, and red teaming projects.';
+  const description = cfg.subtitle ? (cfg.subtitle.length > 155 ? cfg.subtitle.slice(0, 152) + '...' : cfg.subtitle) : defaultDesc;
 
   return {
-    title,
+    title: pageTitle,
     description,
     keywords: [
       'Contact Jaishanth',
@@ -24,11 +26,25 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: `${baseUrl}/contact`,
     },
     openGraph: {
-      title,
+      title: ogTitle,
       description,
       url: `${baseUrl}/contact`,
       siteName: 'Jaishanth Cybersecurity Portfolio',
       type: 'website',
+      images: [
+        {
+          url: `${baseUrl}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: 'Contact Jaishanth - Cybersecurity Student & Ethical Hacker',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: ogTitle,
+      description,
+      images: [`${baseUrl}/og-image.png`],
     },
   };
 }

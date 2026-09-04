@@ -6,11 +6,13 @@ import { getBaseUrl } from '@/lib/baseUrl';
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
   const cfg = await getContentSection('certs');
-  const title = 'Cybersecurity Certifications | Jaishanth';
-  const description = cfg.subtitle || 'Verified cybersecurity certifications, badges, and training achievements earned by Jaishanth M.';
+  const pageTitle = 'Cybersecurity Certifications & Badges';
+  const ogTitle = 'Cybersecurity Certifications | Jaishanth';
+  const defaultDesc = 'View verified cybersecurity certifications, TryHackMe achievements, security badges, and ethical hacking credentials earned by Jaishanth M.';
+  const description = cfg.subtitle ? (cfg.subtitle.length > 155 ? cfg.subtitle.slice(0, 152) + '...' : cfg.subtitle) : defaultDesc;
 
   return {
-    title,
+    title: pageTitle,
     description,
     keywords: [
       'Jaishanth certifications',
@@ -24,11 +26,25 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: `${baseUrl}/certificates`,
     },
     openGraph: {
-      title,
+      title: ogTitle,
       description,
       url: `${baseUrl}/certificates`,
       siteName: 'Jaishanth Cybersecurity Portfolio',
       type: 'website',
+      images: [
+        {
+          url: `${baseUrl}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: 'Jaishanth Cybersecurity Certifications & Badges',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: ogTitle,
+      description,
+      images: [`${baseUrl}/og-image.png`],
     },
   };
 }

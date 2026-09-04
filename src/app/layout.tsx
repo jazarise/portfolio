@@ -11,8 +11,8 @@ import { getBaseUrl } from '@/lib/baseUrl';
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
 
-  const defaultTitle = 'Jaishanth | Cybersecurity Student | Ethical Hacker & Red Teaming';
-  const defaultDesc = 'Jaishanth is a Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET Pollachi) focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.';
+  const defaultTitle = 'Jaishanth | Cybersecurity Student & Ethical Hacker';
+  const defaultDesc = 'Jaishanth is a Cybersecurity student at MCET Pollachi focused on ethical hacking, penetration testing, VAPT, red teaming, and web security.';
 
   return {
     metadataBase: new URL(baseUrl),
