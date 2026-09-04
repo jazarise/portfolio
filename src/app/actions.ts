@@ -10,6 +10,7 @@ import ContentSection from '@/models/ContentSection';
 import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
+import { crawlTryHackMe, extractTHMUsername } from '@/lib/thmCrawler';
 
 // ─── Security Helpers ────────────────────────────────────────────────────────
 
@@ -97,8 +98,43 @@ export async function updateContentSection(sectionId: string, data: any) {
   revalidatePath('/about');
   revalidatePath('/projects');
   revalidatePath('/certificates');
-  revalidatePath('/blog');
-  revalidatePath('/contact');
+}
+
+export async function crawlAndUpdateTHMAction(profileUrl: string) {
+  await requireAdmin();
+  const crawlData = await crawlTryHackMe(profileUrl);
+  const currentHomeCfg = await getContentSection('home');
+  const existingPlatforms = currentHomeCfg?.platforms || 'TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth;HackerRank,Hacker,#00ea64,https://hackerrank.com';
+
+  const username = extractTHMUsername(profileUrl);
+  const profileLink = `https://tryhackme.com/p/${username || 'jaishanth'}`;
+  
+  const updatedPlatformsList = existingPlatforms.split(';').map((item: string) => {
+    const parts = item.split(',');
+    if (parts[0]?.trim().toLowerCase() === 'tryhackme') {
+      return `TryHackMe,${crawlData.rank},#88cc14,${profileLink}`;
+    }
+    return item;
+  });
+
+  if (!existingPlatforms.toLowerCase().includes('tryhackme')) {
+    updatedPlatformsList.unshift(`TryHackMe,${crawlData.rank},#88cc14,${profileLink}`);
+  }
+
+  const newPlatformsStr = updatedPlatformsList.join(';');
+  await updateContentSection('home', {
+    ...currentHomeCfg,
+    platforms: newPlatformsStr,
+    thmCrawledRank: crawlData.rank,
+    thmLastCrawled: crawlData.lastCrawled,
+    thmProfileUrl: profileLink,
+  });
+
+  revalidatePath('/');
+  revalidatePath('/about');
+  revalidatePath('/dashboard');
+
+  return crawlData;
 }
 
 // ─── Projects ───────────────────────────────────────────────────────────────

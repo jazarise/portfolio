@@ -10,7 +10,7 @@ import {
   getSocialLinks, getAllSocialLinks, createSocialLink, updateSocialLink, deleteSocialLink,
   getContactMessages, deleteContactMessage, markMessageRead,
   getContentSection, updateContentSection,
-  toggleVisibility
+  toggleVisibility, crawlAndUpdateTHMAction
 } from '@/app/actions';
 import MediaUploader from '@/components/MediaUploader';
 import Navbar from '@/components/Navbar';
@@ -143,6 +143,80 @@ const MediaInp = ({ data, setData, label, k, type = 'any' }: any) => (
   />
 );
 
+// ─── TryHackMe Crawler Widget ──────────────────────────────────────────
+function THMCrawlerWidget({ showToast, onCrawled }: { showToast: (m: string, t?: 'success' | 'error') => void; onCrawled?: () => void }) {
+  const [profileUrl, setProfileUrl] = useState('https://tryhackme.com/p/jaishanth');
+  const [crawling, setCrawling] = useState(false);
+  const [statusMsg, setStatusMsg] = useState<string | null>(null);
+
+  const handleCrawl = async () => {
+    if (!profileUrl.trim()) {
+      showToast('Enter a TryHackMe username or URL', 'error');
+      return;
+    }
+    setCrawling(true);
+    setStatusMsg(null);
+    try {
+      const res = await crawlAndUpdateTHMAction(profileUrl.trim());
+      if (res.success) {
+        const msg = `Rank: ${res.rank || 'N/A'} | Level: ${res.level || 'N/A'} | Rooms: ${res.roomsCompleted || 'N/A'} | Pts: ${res.points || 'N/A'}`;
+        setStatusMsg(msg);
+        showToast(`✓ Crawled THM! ${msg}`);
+        if (onCrawled) onCrawled();
+      } else {
+        showToast(res.error || 'Failed to crawl THM profile', 'error');
+      }
+    } catch (err: any) {
+      showToast(err.message || 'Crawl error', 'error');
+    } finally {
+      setCrawling(false);
+    }
+  };
+
+  return (
+    <div className="p-4 rounded-xl bg-[#080b18] border border-cyan-500/30 my-4 space-y-3 shadow-[0_0_20px_rgba(6,182,212,0.05)]">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider">
+          <span>🎯</span> TryHackMe Auto-Crawler & Sync
+        </div>
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">LIVE SCRAPER</span>
+      </div>
+      <p className="text-gray-400 text-xs font-mono">
+        Automatically fetch your TryHackMe profile rank, rooms & stats and sync them to your homepage.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-2">
+        <input
+          type="text"
+          value={profileUrl}
+          onChange={(e) => setProfileUrl(e.target.value)}
+          placeholder="Username or URL e.g. jaishanth or https://tryhackme.com/p/jaishanth"
+          className={`${inputCls} font-mono text-xs`}
+        />
+        <button
+          type="button"
+          onClick={handleCrawl}
+          disabled={crawling}
+          className="shrink-0 px-4 py-2.5 rounded-lg bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/50 text-cyan-200 font-mono text-xs font-semibold transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+        >
+          {crawling ? (
+            <>
+              <span className="w-3 h-3 border-2 border-cyan-300 border-t-transparent rounded-full animate-spin" />
+              Crawling...
+            </>
+          ) : (
+            '⚡ Crawl & Sync'
+          )}
+        </button>
+      </div>
+      {statusMsg && (
+        <div className="text-xs font-mono text-emerald-400 bg-emerald-950/30 border border-emerald-500/20 p-2.5 rounded-lg">
+          ✓ Synced to DB: {statusMsg}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── ContentTab ───────────────────────────────────────────────────────────────
 function ContentTab({ showToast }: { showToast: (m: string, t?: 'success' | 'error') => void }) {
   const [section, setSection] = useState('home');
@@ -208,6 +282,7 @@ function ContentTab({ showToast }: { showToast: (m: string, t?: 'success' | 'err
             <div className="px-4 py-3 rounded-xl bg-emerald-950/20 border border-emerald-500/15 text-emerald-400 text-xs font-mono mt-2">
               ℹ Projects & Certifications counters are now auto-calculated from the database.
             </div>
+            <THMCrawlerWidget showToast={showToast} onCrawled={load} />
             <Inp data={data} aF={aF} label="Platforms (Format: Name,Rank,Color,URL; Name2,Rank2,Color2,URL)" k="platforms" isArea h="h-24" />
             <Inp data={data} aF={aF} label="Skills (Format: Name,Pct; Name2,Pct2)" k="skills" isArea h="h-24" />
             <Inp data={data} aF={aF} label="Testimonials (Format: Quote,Name,Role/Org; Quote2,Name2,Role2/Org2)" k="testimonials" isArea h="h-28" />
