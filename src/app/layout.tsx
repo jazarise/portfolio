@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Inter, Outfit, Space_Mono } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -7,6 +8,25 @@ import ClientProviders from '@/components/ClientProviders';
 import { getContentSection, getSocialLinks } from '@/app/actions';
 import { GlobalStateProvider } from '@/lib/GlobalState';
 import { getBaseUrl } from '@/lib/baseUrl';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+const spaceMono = Space_Mono({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = getBaseUrl();
@@ -109,7 +129,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const initialState = { homeCfg, navbarCfg, footerCfg, profileCfg, socialLinks };
 
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${outfit.variable} ${spaceMono.variable}`}>
       <body className="antialiased font-sans text-gray-200 bg-dark-main">
         <GlobalStateProvider initialState={initialState}>
           <ClientProviders>

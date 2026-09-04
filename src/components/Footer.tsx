@@ -56,7 +56,7 @@ export default function Footer({ previewCfg, previewSocials }: { previewCfg?: an
                 return <span className="text-neon-cyan">{name}</span>;
               })()}
             </Link>
-            <p className="font-mono text-xs text-gray-500">
+            <p className="font-mono text-xs text-gray-400">
               {cfg?.copyrightText || `Cybersecurity Student & Aspiring Red Teamer © ${new Date().getFullYear()}`}
             </p>
           </div>
@@ -73,7 +73,7 @@ export default function Footer({ previewCfg, previewSocials }: { previewCfg?: an
                 className={`group flex items-center justify-center w-10 h-10 rounded-xl
                   bg-white/5 border border-white/5
                   hover:bg-white/10
-                  text-gray-500
+                  text-gray-400
                   transition-all duration-200 ${getHoverColor(link.platform)}`}
               >
                 {getSocialIcon(link.platform)}
@@ -86,7 +86,7 @@ export default function Footer({ previewCfg, previewSocials }: { previewCfg?: an
             {['/', '/projects', '/certificates', '/blog', '/contact'].map((href, i) => {
               const labels = ['Home', 'Projects', 'Certs', 'Blog', 'Contact'];
               return (
-                <Link key={href} href={href} className="font-mono text-xs text-gray-500 hover:text-neon-cyan transition-colors">
+                <Link key={href} href={href} className="font-mono text-xs text-gray-400 hover:text-neon-cyan transition-colors">
                   {labels[i]}
                 </Link>
               );

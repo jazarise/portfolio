@@ -417,7 +417,7 @@ export default function HomeClient({ cfg: previewCfg, projectCount = 0, certCoun
                   <div key={t.name}
                     className="flex flex-col items-center justify-center gap-2 py-4 px-2 rounded-xl bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/10 hover:border-[var(--tool-color)] hover:bg-white/[0.04] hover:-translate-y-0.5 transition-all duration-300 group"
                     style={{ '--tool-color': t.color + '60' } as React.CSSProperties}>
-                    <t.icon className="w-6 h-6 text-gray-500 group-hover:text-[var(--tool-icon-color)] transition-colors duration-300" style={{ '--tool-icon-color': t.color } as React.CSSProperties} />
+                    <t.icon aria-label={`${t.name} security tool icon`} title={t.name} className="w-6 h-6 text-gray-500 group-hover:text-[var(--tool-icon-color)] transition-colors duration-300" style={{ '--tool-icon-color': t.color } as React.CSSProperties} />
                     <span className="text-[10px] font-mono text-gray-400 group-hover:text-white transition-colors text-center tracking-wider">{t.name}</span>
                   </div>
                 ))}
