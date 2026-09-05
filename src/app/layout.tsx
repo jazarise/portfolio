@@ -44,6 +44,9 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: [
       'Jaishanth',
       'Jaishanth cybersecurity',
+      'Jaishanth Bugcrowd',
+      'Bugcrowd security researcher',
+      'bug bounty researcher India',
       'Jaishanth ethical hacker',
       'Jaishanth penetration testing',
       'Jaishanth MCET',

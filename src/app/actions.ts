@@ -19,12 +19,12 @@ const DEFAULT_CONTENT: Record<string, any> = {
   home: {
     heading: 'Jaishanth',
     subheading: 'Cybersecurity Student @ MCET Pollachi',
-    tagline: 'Ethical Hacker & Red Teamer',
-    bio: 'Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, passionate about ethical hacking, offensive security, penetration testing, vulnerability assessment, and security research.',
+    tagline: 'Security Researcher @ Bugcrowd | Ethical Hacker & Red Teamer',
+    bio: 'Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET Pollachi) and Security Researcher at Bugcrowd, focused on ethical hacking, penetration testing, VAPT, bug bounty hunting, and web security.',
     availableForWork: true,
     location: 'MCET, Pollachi, Tamil Nadu, India',
     email: 'jaishanthcys@gmail.com',
-    platforms: 'TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth; LinkedIn,Jaishanth,#0077b5,https://linkedin.com/in/jaishanth; GitHub,jaishanthm,#333,https://github.com/jaishanthm; Instagram,jaishanthh,#e1306c,https://instagram.com/jaishanthh; Discord,jaishanthm,#5865F2,https://discord.com/users/jaishanthm',
+    platforms: 'Bugcrowd,Researcher,#f37023,https://bugcrowd.com/jaishanth; TryHackMe,Top 1%,#88cc14,https://tryhackme.com/p/jaishanth; LinkedIn,Jaishanth,#0077b5,https://linkedin.com/in/jaishanth; GitHub,jaishanthm,#333,https://github.com/jaishanthm; Instagram,jaishanthh,#e1306c,https://instagram.com/jaishanthh; Discord,jaishanthm,#5865F2,https://discord.com/users/jaishanthm',
     skills: 'Penetration Testing,85;Network Security,80;VAPT & Threat Analysis,78;Python/Automation,90;Web App Security,82;Linux & Active Directory,85',
   },
   about: {

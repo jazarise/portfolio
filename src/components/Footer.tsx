@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { useGlobal } from '@/lib/GlobalState';
 import { FaLinkedin, FaGithub, FaInstagram, FaDiscord, FaTwitter, FaEnvelope } from 'react-icons/fa';
-import { SiTryhackme, SiHackthebox } from 'react-icons/si';
+import { SiTryhackme, SiHackthebox, SiBugcrowd } from 'react-icons/si';
 
 const getSocialIcon = (platform: string) => {
   const p = platform.toLowerCase();
   
   if (p.includes('linkedin')) return <FaLinkedin aria-hidden="true" className="w-5 h-5" />;
   if (p.includes('github')) return <FaGithub aria-hidden="true" className="w-5 h-5" />;
+  if (p.includes('bugcrowd')) return <SiBugcrowd aria-hidden="true" className="w-5 h-5" />;
   if (p.includes('instagram')) return <FaInstagram aria-hidden="true" className="w-5 h-5" />;
   if (p.includes('discord')) return <FaDiscord aria-hidden="true" className="w-5 h-5" />;
   if (p.includes('tryhackme')) return <SiTryhackme aria-hidden="true" className="w-5 h-5" />;
@@ -24,6 +25,7 @@ const getHoverColor = (platform: string) => {
   const p = platform.toLowerCase();
   if (p.includes('linkedin')) return 'hover:text-[#0077b5] hover:border-[#0077b5]/30';
   if (p.includes('github')) return 'hover:text-white hover:border-white/30';
+  if (p.includes('bugcrowd')) return 'hover:text-[#f37023] hover:border-[#f37023]/30';
   if (p.includes('instagram')) return 'hover:text-pink-500 hover:border-pink-500/30';
   if (p.includes('discord')) return 'hover:text-[#5865F2] hover:border-[#5865F2]/30';
   if (p.includes('tryhackme')) return 'hover:text-[#88cc14] hover:border-[#88cc14]/30';

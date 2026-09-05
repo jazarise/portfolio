@@ -22,8 +22,8 @@ export default async function HomePage() {
       givenName: 'Jaishanth',
       familyName: 'M',
       alternateName: ['Jaishanth M', 'Jaishanth MCET', 'jaishanthh', 'jaishanthm', 'jaiz_sec', 'jazarise'],
-      jobTitle: 'Cybersecurity Student & Ethical Hacker',
-      description: 'Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET), Pollachi, focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and security research.',
+      jobTitle: 'Cybersecurity Student & Bugcrowd Security Researcher',
+      description: 'Cybersecurity student at Dr. Mahalingam College of Engineering and Technology (MCET Pollachi) and Security Researcher at Bugcrowd, focused on ethical hacking, penetration testing, vulnerability assessment, web security, red teaming, and bug bounty research.',
       url: baseUrl,
       image: `${baseUrl}/profile.jpg`,
       address: {
@@ -41,6 +41,8 @@ export default async function HomePage() {
       knowsAbout: [
         'Cybersecurity',
         'Ethical Hacking',
+        'Bugcrowd Security Research',
+        'Bug Bounty Hunting',
         'Penetration Testing',
         'Vulnerability Assessment',
         'Web Application Security',
@@ -53,6 +55,7 @@ export default async function HomePage() {
         'Cloud Security'
       ],
       sameAs: [
+        'https://bugcrowd.com/jaishanth',
         'https://instagram.com/jaishanthh',
         'https://github.com/jaishanthm',
         'https://linkedin.com/in/jaishanth',
