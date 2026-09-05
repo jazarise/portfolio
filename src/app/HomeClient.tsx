@@ -43,7 +43,7 @@ const TOOLS = [
 ];
 
 const DEFAULT_PLATFORMS = [
-  { name: 'Bugcrowd',   rank: 'Researcher', color: '#f37023', href: 'https://bugcrowd.com/jaishanth' },
+  { name: 'Bugcrowd',   rank: 'Researcher', color: '#f37023', href: 'https://bugcrowd.com/h/jaishanth' },
   { name: 'TryHackMe',  rank: 'Top 1%',      color: '#88cc14', href: 'https://tryhackme.com/p/jaishanth' },
   { name: 'HackerRank', rank: 'Hacker',      color: '#00ea64', href: 'https://hackerrank.com' },
 ];

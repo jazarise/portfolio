@@ -55,8 +55,7 @@ export default async function HomePage() {
         'Cloud Security'
       ],
       sameAs: [
-        'https://bugcrowd.com/jaishanth',
-        'https://instagram.com/jaishanthh',
+        'https://bugcrowd.com/h/jaishanth',
         'https://github.com/jaishanthm',
         'https://linkedin.com/in/jaishanth',
         'https://tryhackme.com/p/jaishanth',
